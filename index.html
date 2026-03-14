@@ -248,9 +248,8 @@ textarea{resize:vertical;min-height:110px;line-height:1.6}
 
       <div class="api-section">
         <div class="section-label">Konfiguracija</div>
-        <div class="info-banner" id="serverBanner">
-          ⓘ Pokreni server: <strong>python server.py</strong> → otvori <strong>http://localhost:8080</strong><br>
-          API ključ se čita iz <strong>.env</strong> fajla — upiši ga tamo jednom i više ga ne trebaš unositi.
+        <div class="info-banner" id="serverBanner" style="display:none">
+          ⓘ Cloudflare Worker proxy aktivan.
         </div>
         <!-- Status .env kljuca -->
         <div id="envStatus" style="display:none;padding:10px 14px;border-radius:4px;font-family:'DM Mono',monospace;font-size:11px;margin-bottom:16px;"></div>
@@ -363,6 +362,14 @@ textarea{resize:vertical;min-height:110px;line-height:1.6}
 </div>
 
 <script>
+// ===== KONFIGURACIJA =====
+// Zamijeni ovaj URL sa tvojim Cloudflare Worker URL-om nakon deploya
+// Format: https://ime-workera.tvoje-ime.workers.dev
+const WORKER_URL = 'https://raspy-frost-0d1a.adnansahanic40.workers.dev/';  // ← UPIŠI OVDJE SVOJ WORKER URL
+
+// Ako je WORKER_URL prazan, koristi relativni /api/mistral (za lokalni server)
+const API_BASE = WORKER_URL || '';
+
 // ===== PARTICLES =====
 (function(){
   const container = document.getElementById('particles');
@@ -1348,7 +1355,7 @@ Zadrži IDENTIČNU LaTeX strukturu sa svim adjustbox omotačima. Vrati kompletan
 
   try {
     setLoadingPct(20, 'Slanje upita Mistral AI-ju...');
-    const response = await fetch('/api/mistral', {
+    const response = await fetch(API_BASE + '/api/mistral', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -1506,7 +1513,7 @@ function _overleafPost(latex) {
 // ===== ENV KEY STATUS =====
 async function checkEnvKey() {
   try {
-    const r = await fetch('/api/key-status');
+    const r = await fetch(API_BASE + '/api/key-status');
     if (!r.ok) throw new Error('no server');
     const d = await r.json();
     const box = document.getElementById('envStatus');
