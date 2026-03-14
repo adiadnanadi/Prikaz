@@ -537,10 +537,9 @@ const ORIGINAL_DOC = `\\documentclass[a4paper,11pt]{article}
 \\end{tikzpicture}
 \\end{titlepage}
 \\section{Osnovni podaci o nastavnom času}
-\\noindent\\adjustbox{max width=\\linewidth}{%
 \\renewcommand{\\arraystretch}{1.4}
 \\small
-\\begin{tabular}{|>{\\columncolor{primaryblue!10}}L{3.8cm}|L{5cm}|>{\\columncolor{primaryblue!10}}L{3cm}|L{3.5cm}|}
+\\begin{tabularx}{\\linewidth}{|>{\\columncolor{primaryblue!10}\\raggedright\\arraybackslash}p{3.5cm}|>{\\raggedright\\arraybackslash}X|>{\\columncolor{primaryblue!10}\\raggedright\\arraybackslash}p{2.8cm}|>{\\raggedright\\arraybackslash}p{2.8cm}|}
     \\hline
     \\rowcolor{primaryblue}
     \\multicolumn{4}{|c|}{\\textcolor{white}{\\textbf{IDENTIFIKACIJSKI PODACI}}} \\\\
@@ -553,12 +552,11 @@ const ORIGINAL_DOC = `\\documentclass[a4paper,11pt]{article}
     \\hline
     \\textbf{Tip časa:} & Obrada novog gradiva & \\textbf{Broj učenika:} & 19 \\\\
     \\hline
-\\end{tabular}}
+\\end{tabularx}
 \\vspace{0.3cm}
-\\noindent\\adjustbox{max width=\\linewidth}{%
 \\renewcommand{\\arraystretch}{1.3}
 \\small
-\\begin{tabular}{|>{\\columncolor{secondaryblue!10}}L{3.5cm}|L{12.7cm}|}
+\\begin{tabularx}{\\linewidth}{|>{\\columncolor{secondaryblue!10}\\raggedright\\arraybackslash}p{3.5cm}|>{\\raggedright\\arraybackslash}X|}
     \\hline
     \\rowcolor{secondaryblue}
     \\multicolumn{2}{|c|}{\\textcolor{white}{\\textbf{NASTAVNE METODE, OBLICI RADA I SREDSTVA}}} \\\\
@@ -571,7 +569,7 @@ const ORIGINAL_DOC = `\\documentclass[a4paper,11pt]{article}
     \\hline
     \\textbf{Korelacija:} & Osnove digitalne elektronike, Digitalna integrirana kola, Osnove elektrotehnike \\\\
     \\hline
-\\end{tabular}}
+\\end{tabularx}
 \\section{Ciljevi nastavnog časa}
 \\begin{tcolorbox}[colback=primaryblue!5,colframe=primaryblue,title={\\faGraduationCap\\ OBRAZOVNI CILJEVI},fonttitle=\\bfseries]
 \\small Učenici će biti u stanju:
@@ -631,7 +629,7 @@ const ORIGINAL_DOC = `\\documentclass[a4paper,11pt]{article}
     \\hline
     5 & Završni dio (ponavljanje, radni listić, zaključak) & 8 min \\\\
     \\hline
-\\end{tabular}}
+\\end{tabularx}
 \\end{alertbox}
 \\vspace{0.3cm}
 \\subsection{UVODNI DIO (5 minuta)}
@@ -767,7 +765,7 @@ const ORIGINAL_DOC = `\\documentclass[a4paper,11pt]{article}
     \\node[align=left, font=\\scriptsize, anchor=north west] at (0.7,5.9) {Osnovna ćelija = \\textbf{INVERTOR} ($Y = \\overline{A}$)\\\\Wired-AND: $Y = \\overline{A+B}$ = NOR funkcija};
     \\node[font=\\bfseries\\small, primaryblue] at (15,6.4) {USPOREDBA};
     \\draw[thick] (10.5,4.8) rectangle (19.5,6.1);
-    \\node[align=center, font=\\scriptsize] at (15,5.45) {I\\textsuperscript{2}L: $<$1V, 0.01mW\\\\TTL: 5V, 10mW | CMOS: 3--5V, $\\mu$W};
+    \\node[align=center, font=\\scriptsize, text width=8cm] at (15,5.45) {I\\textsuperscript{2}L: $<$1V, 0.01\,mW \\\\ TTL: 5V, 10\,mW \\\\ CMOS: 3--5V, $\\mu$W};
     \\node[font=\\bfseries\\small, primaryblue] at (10,4.4) {PREDNOSTI I NEDOSTACI};
     \\draw[thick] (2,2) rectangle (18,4.1);
     \\node[align=center, font=\\scriptsize] at (10,3.2) {\\textbf{+} Visoka gustoća $|$ Mala potrošnja $|$ Jednostavan proces\\\\\\textbf{--} Mali $V_{swing}$ (0.6V) $|$ Osjetljivost na šum $|$ Zastarjelo};
@@ -848,14 +846,14 @@ Godina: \\underline{\\hspace{2cm}} \\qquad Kompanije: \\underline{\\hspace{3.5cm
 \\end{minipage}\\hfill
 \\begin{minipage}[t]{0.48\\textwidth}
 \\begin{alertbox}[\\faExclamationTriangle\\ MOGUĆE POTEŠKOĆE]
-\\footnotesize\\noindent\\adjustbox{max width=\\linewidth}{%
-\\begin{tabular}{|L{3.2cm}|L{3.5cm}|}\\hline
+\\footnotesize
+\\begin{tabularx}{\\linewidth}{|>{\\raggedright\\arraybackslash}X|>{\\raggedright\\arraybackslash}X|}\\hline
 \\textbf{Poteškoća} & \\textbf{Rješenje} \\\\\\hline
 Pojam ,,injekcija'' & Analogija: pumpa za vodu \\\\\\hline
 PNP vs NPN & PNP=struja, NPN=logika \\\\\\hline
 Mali $V_{swing}$ & Usporediti s TTL \\\\\\hline
 Wired-AND & Crtež spajanja \\\\\\hline
-\\end{tabular}}
+\\end{tabularx}
 \\end{alertbox}
 \\end{minipage}
 \\vspace{0.4cm}
@@ -868,12 +866,10 @@ Wired-AND & Crtež spajanja \\\\\\hline
     \\item Za naprednije učenike: BiCMOS kao moderna kombinacija bipolarnih i CMOS tranzistora
 \\end{itemize}\\end{infobox}
 \\vspace{0.4cm}
-\\noindent\\begin{tikzpicture}
-    \\node[draw,rounded corners,fill=primaryblue!10,minimum width=\\linewidth-2*\\pgfkeysvalueof{/pgf/inner xsep},minimum height=2.2cm,align=center, text width=\\linewidth-1cm]{
-        \\textbf{BILJEŠKE NAKON ČASA}\\\\[0.3cm]
-        \\dotfill\\\\[0.3cm]\\dotfill\\\\[0.3cm]\\dotfill
-    };
-\\end{tikzpicture}
+\\begin{tcolorbox}[colback=primaryblue!10,colframe=primaryblue!50,boxrule=0.8pt,arc=4pt,left=6pt,right=6pt,top=8pt,bottom=8pt]
+\\textbf{BILJEŠKE NAKON ČASA}\\\\[0.45cm]
+\\dotfill\\\\[0.4cm]\\dotfill\\\\[0.4cm]\\dotfill
+\\end{tcolorbox}
 \\vspace{0.4cm}
 \\begin{flushright}\\textbf{Potpis nastavnika:} \\underline{\\hspace{4.5cm}}\\end{flushright}
 \\end{document}`;
@@ -906,10 +902,12 @@ Dobijas kompletan LaTeX dokument kao referencu. Vraćaš IDENTIČNO strukturiran
 
 PRAVILA (SVA MORAJU BITI ISPUNJENA):
 1. Zadrži IDENTIČNU LaTeX strukturu: tcolorbox, tikzpicture, tabular, minipage, enumerate, itemize, adjustbox
-2. Svaka tabela mora biti omotana u: \\noindent\\adjustbox{max width=\\linewidth}{% ... }
-3. Plan ploče tikzpicture mora biti omotan u: \\adjustbox{max width=\\linewidth}{% ... }
-4. Zadrži iste boje: primaryblue, secondaryblue, accentorange, accentgreen, goldcolor, lightgray
-5. Zadrži iste dimenzije kolona: L{7.5cm}|L{7.5cm} u artikulaciji, L{3.8cm} u identifikaciji
+2. Za tabele koje zauzimaju punu širinu stranice (IDENTIFIKACIJSKI PODACI, NASTAVNE METODE) OBAVEZNO koristi \\begin{tabularx}{\\linewidth}{...} sa X kolonom za rastezljivu kolonu
+3. Za tabele u artikulaciji (aktivnost nastavnika/učenika) koristi \\noindent\\adjustbox{max width=\\linewidth}{% \\begin{tabular}{|L{7.5cm}|L{7.5cm}|} ... }
+4. Plan ploče tikzpicture mora biti omotan u: \\adjustbox{max width=\\linewidth}{% ... }
+5. Zadrži iste boje: primaryblue, secondaryblue, accentorange, accentgreen, goldcolor, lightgray
+6. Tabele za poteškoće i usporedbe: koristi tabularx sa X kolonama
+7. NIKAD ne koristi fiksne cm dimenzije koje zajedno prelaze 15.4cm (širina teksta A4 sa marginama 1.8cm)
 6. Zadrži iste fontawesome ikone: faGraduationCap, faHeart, faCogs, faClock, faChartLine, faExclamationTriangle, faStickyNote, faMicrochip, faCheckCircle
 7. Vremenski raspored IDENTIČAN: 5+12+12+8+8 minuta
 8. Radni listić: 9 pitanja, 25 bodova ukupno, ista skala ocjenjivanja
