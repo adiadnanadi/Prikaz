@@ -455,6 +455,8 @@ function setLoading(on){
 
 // ===== ORIGINAL DOC =====
 const ORIGINAL_DOC = `\\documentclass[a4paper,11pt]{article}
+
+% ===== PAKETI =====
 \\usepackage[utf8]{inputenc}
 \\usepackage[T1]{fontenc}
 \\usepackage[croatian]{babel}
@@ -476,9 +478,19 @@ const ORIGINAL_DOC = `\\documentclass[a4paper,11pt]{article}
 \\usepackage{hyperref}
 \\usepackage{amsmath}
 \\usepackage{adjustbox}
+
 \\tcbuselibrary{skins, breakable}
 \\usetikzlibrary{shapes.geometric, arrows.meta, positioning, calc}
-\\geometry{left=1.8cm,right=1.8cm,top=2cm,bottom=2cm}
+
+% ===== GEOMETRIJA =====
+\\geometry{
+    left=1.8cm,
+    right=1.8cm,
+    top=2cm,
+    bottom=2cm
+}
+
+% ===== BOJE =====
 \\definecolor{primaryblue}{RGB}{0, 73, 135}
 \\definecolor{secondaryblue}{RGB}{0, 112, 192}
 \\definecolor{accentorange}{RGB}{255, 153, 0}
@@ -487,6 +499,8 @@ const ORIGINAL_DOC = `\\documentclass[a4paper,11pt]{article}
 \\definecolor{lightgray}{RGB}{240, 240, 240}
 \\definecolor{goldcolor}{RGB}{241, 196, 15}
 \\definecolor{darkgreen}{RGB}{0, 128, 0}
+
+% ===== HEADER/FOOTER =====
 \\pagestyle{fancy}
 \\fancyhf{}
 \\fancyhead[L]{\\textcolor{primaryblue}{\\small Elektrotehnička škola Tuzla}}
@@ -494,16 +508,47 @@ const ORIGINAL_DOC = `\\documentclass[a4paper,11pt]{article}
 \\fancyfoot[C]{\\textcolor{primaryblue}{\\thepage}}
 \\renewcommand{\\headrulewidth}{1.5pt}
 \\renewcommand{\\headrule}{\\hbox to\\headwidth{\\color{primaryblue}\\leaders\\hrule height \\headrulewidth\\hfill}}
-\\titleformat{\\section}{\\large\\bfseries\\color{primaryblue}}{\\thesection.}{0.5em}{}[\\titlerule]
+
+% ===== NASLOVI =====
+\\titleformat{\\section}
+    {\\large\\bfseries\\color{primaryblue}}
+    {\\thesection.}{0.5em}{}[\\titlerule]
 \\titlespacing*{\\section}{0pt}{10pt}{6pt}
-\\titleformat{\\subsection}{\\normalsize\\bfseries\\color{secondaryblue}}{\\thesubsection}{0.5em}{}
+
+\\titleformat{\\subsection}
+    {\\normalsize\\bfseries\\color{secondaryblue}}
+    {\\thesubsection}{0.5em}{}
 \\titlespacing*{\\subsection}{0pt}{8pt}{4pt}
-\\newtcolorbox{infobox}[1][]{colback=primaryblue!5,colframe=primaryblue,fonttitle=\\bfseries\\small,title=#1,rounded corners,boxrule=1pt,left=4pt,right=4pt,top=3pt,bottom=3pt}
-\\newtcolorbox{alertbox}[1][]{colback=accentorange!10,colframe=accentorange,fonttitle=\\bfseries\\small,title=#1,rounded corners,boxrule=1pt,left=4pt,right=4pt,top=3pt,bottom=3pt}
-\\newtcolorbox{successbox}[1][]{colback=accentgreen!10,colframe=accentgreen,fonttitle=\\bfseries\\small,title=#1,rounded corners,boxrule=1pt,left=4pt,right=4pt,top=3pt,bottom=3pt}
+
+% ===== TCOLORBOX =====
+\\newtcolorbox{infobox}[1][]{
+    colback=primaryblue!5, colframe=primaryblue,
+    fonttitle=\\bfseries\\small, title=#1,
+    rounded corners, boxrule=1pt,
+    left=4pt, right=4pt, top=3pt, bottom=3pt
+}
+
+\\newtcolorbox{alertbox}[1][]{
+    colback=accentorange!10, colframe=accentorange,
+    fonttitle=\\bfseries\\small, title=#1,
+    rounded corners, boxrule=1pt,
+    left=4pt, right=4pt, top=3pt, bottom=3pt
+}
+
+\\newtcolorbox{successbox}[1][]{
+    colback=accentgreen!10, colframe=accentgreen,
+    fonttitle=\\bfseries\\small, title=#1,
+    rounded corners, boxrule=1pt,
+    left=4pt, right=4pt, top=3pt, bottom=3pt
+}
+
+% ===== CUSTOM TABELE =====
 \\newcolumntype{L}[1]{>{\\raggedright\\arraybackslash}p{#1}}
 \\newcolumntype{C}[1]{>{\\centering\\arraybackslash}p{#1}}
+
 \\begin{document}
+
+% ==================== NASLOVNA STRANA ====================
 \\begin{titlepage}
 \\begin{tikzpicture}[remember picture, overlay]
     \\fill[primaryblue] (current page.north west) rectangle ([yshift=-3.5cm]current page.north east);
@@ -512,16 +557,21 @@ const ORIGINAL_DOC = `\\documentclass[a4paper,11pt]{article}
     \\node[circle, fill=goldcolor, minimum size=2.5cm] at ([yshift=-1.7cm]current page.north) {};
     \\node[primaryblue, font=\\fontsize{18}{22}\\selectfont\\bfseries] at ([yshift=-1.7cm]current page.north) {I\\textsuperscript{2}L};
 \\end{tikzpicture}
+
 \\vspace{4cm}
+
 \\begin{center}
     {\\fontsize{12}{14}\\selectfont\\textcolor{darkgray}{ELEKTROTEHNIČKA ŠKOLA TUZLA}}\\\\
     \\vspace{2.5cm}
     {\\fontsize{24}{28}\\selectfont\\textcolor{primaryblue}{\\textbf{PRIPREMA ZA NASTAVNI ČAS}}}\\\\
     \\vspace{1.5cm}
-    \\begin{tcolorbox}[colback=lightgray,colframe=primaryblue,width=12cm,center,boxrule=2pt,arc=4mm]
+    \\begin{tcolorbox}[
+        colback=lightgray, colframe=primaryblue,
+        width=12cm, center, boxrule=2pt, arc=4mm
+    ]
         \\centering
         {\\Large\\textbf{Nastavna jedinica:}}\\\\[0.3cm]
-        {\\LARGE\\textcolor{primaryblue}{\\textbf{I\\textsuperscript{2}L -- Integrirana Injekcijska Logika}}}\\\\[0.2cm]
+        {\\LARGE\\textcolor{primaryblue}{\\textbf{I\\textsuperscript{2}L - Integrirana Injekcijska Logika}}}\\\\[0.2cm]
         {\\large\\textcolor{secondaryblue}{Integrated Injection Logic}}
     \\end{tcolorbox}
     \\vspace{2.5cm}
@@ -531,29 +581,37 @@ const ORIGINAL_DOC = `\\documentclass[a4paper,11pt]{article}
         \\textbf{Školska godina:} & 2025/2026.
     \\end{tabular}
 \\end{center}
+
 \\vfill
+
 \\begin{tikzpicture}[remember picture, overlay]
     \\node[white, anchor=south] at ([yshift=0.5cm]current page.south) {\\small Tuzla, \\today};
 \\end{tikzpicture}
 \\end{titlepage}
+
+% ==================== STRANA 2: OSNOVNI PODACI I CILJEVI ====================
 \\section{Osnovni podaci o nastavnom času}
+
+\\noindent\\adjustbox{max width=\\linewidth}{%
 \\renewcommand{\\arraystretch}{1.4}
 \\small
-\\begin{tabularx}{\\linewidth}{|>{\\columncolor{primaryblue!10}\\raggedright\\arraybackslash}p{3.5cm}|>{\\raggedright\\arraybackslash}X|>{\\columncolor{primaryblue!10}\\raggedright\\arraybackslash}p{2.8cm}|>{\\raggedright\\arraybackslash}p{2.8cm}|}
+\\begin{tabular}{|>{\\columncolor{primaryblue!10}}L{3.8cm}|L{5cm}|>{\\columncolor{primaryblue!10}}L{3cm}|L{3.5cm}|}
     \\hline
     \\rowcolor{primaryblue}
     \\multicolumn{4}{|c|}{\\textcolor{white}{\\textbf{IDENTIFIKACIJSKI PODACI}}} \\\\
     \\hline
     \\textbf{Predmet:} & Elektronika & \\textbf{Datum:} & \\today \\\\
     \\hline
-    \\textbf{Nastavna jedinica:} & \\multicolumn{3}{l|}{I\\textsuperscript{2}L -- Integrirana Injekcijska Logika} \\\\
+    \\textbf{Nastavna jedinica:} & \\multicolumn{3}{l|}{I\\textsuperscript{2}L - Integrirana Injekcijska Logika} \\\\
     \\hline
     \\textbf{Razred:} & Četvrti (IV) & \\textbf{Trajanje:} & 45 minuta \\\\
     \\hline
     \\textbf{Tip časa:} & Obrada novog gradiva & \\textbf{Broj učenika:} & 19 \\\\
     \\hline
-\\end{tabularx}
+\\end{tabular}}
+
 \\vspace{0.3cm}
+
 \\renewcommand{\\arraystretch}{1.3}
 \\small
 \\begin{tabularx}{\\linewidth}{|>{\\columncolor{secondaryblue!10}\\raggedright\\arraybackslash}p{3.5cm}|>{\\raggedright\\arraybackslash}X|}
@@ -570,9 +628,14 @@ const ORIGINAL_DOC = `\\documentclass[a4paper,11pt]{article}
     \\textbf{Korelacija:} & Osnove digitalne elektronike, Digitalna integrirana kola, Osnove elektrotehnike \\\\
     \\hline
 \\end{tabularx}
+
+\\vspace{0.4cm}
+
 \\section{Ciljevi nastavnog časa}
-\\begin{tcolorbox}[colback=primaryblue!5,colframe=primaryblue,title={\\faGraduationCap\\ OBRAZOVNI CILJEVI},fonttitle=\\bfseries]
-\\small Učenici će biti u stanju:
+
+\\begin{tcolorbox}[colback=primaryblue!5, colframe=primaryblue, title={\\faGraduationCap\\ OBRAZOVNI CILJEVI}, fonttitle=\\bfseries]
+\\small
+Učenici će biti u stanju:
 \\begin{itemize}[nosep, leftmargin=*]
     \\item \\textbf{Definirati} I\\textsuperscript{2}L tehnologiju i objasniti značenje skraćenice
     \\item \\textbf{Nabrojati} i opisati dva osnovna elementa I\\textsuperscript{2}L ćelije (PNP injektor, NPN prekidač)
@@ -584,9 +647,10 @@ const ORIGINAL_DOC = `\\documentclass[a4paper,11pt]{article}
     \\item \\textbf{Nabrojati} prednosti i nedostatke I\\textsuperscript{2}L tehnologije
 \\end{itemize}
 \\end{tcolorbox}
+
 \\vspace{0.2cm}
-\\begin{minipage}[t]{0.48\\textwidth}
-\\begin{tcolorbox}[colback=accentgreen!10,colframe=accentgreen,title={\\faHeart\\ ODGOJNI CILJEVI},fonttitle=\\bfseries\\small]
+
+\\begin{tcolorbox}[colback=accentgreen!10, colframe=accentgreen, title={\\faHeart\\ ODGOJNI CILJEVI}, fonttitle=\\bfseries\\small, height=3.4cm]
 \\footnotesize
 \\begin{itemize}[nosep, leftmargin=*]
     \\item Razvijanje interesa za historiju elektronike
@@ -596,10 +660,10 @@ const ORIGINAL_DOC = `\\documentclass[a4paper,11pt]{article}
     \\item Preciznost u tehničkom izražavanju
 \\end{itemize}
 \\end{tcolorbox}
-\\end{minipage}
+
 \\hfill
-\\begin{minipage}[t]{0.48\\textwidth}
-\\begin{tcolorbox}[colback=accentorange!10,colframe=accentorange,title={\\faCogs\\ FUNKCIONALNI CILJEVI},fonttitle=\\bfseries\\small]
+
+\\begin{tcolorbox}[colback=accentorange!10, colframe=accentorange, title={\\faCogs\\ FUNKCIONALNI CILJEVI}, fonttitle=\\bfseries\\small, height=3.4cm]
 \\footnotesize
 \\begin{itemize}[nosep, leftmargin=*]
     \\item Čitanje i crtanje elektroničkih shema
@@ -609,269 +673,582 @@ const ORIGINAL_DOC = `\\documentclass[a4paper,11pt]{article}
     \\item Primjena znanja iz prethodnih lekcija
 \\end{itemize}
 \\end{tcolorbox}
-\\end{minipage}
+
+% ==================== STRANA 3: ARTIKULACIJA ====================
 \\newpage
 \\section{Artikulacija nastavnog časa (45 minuta)}
+
 \\begin{alertbox}[\\faClock\\ VREMENSKI RASPORED]
+\\centering\\small
 \\noindent\\adjustbox{max width=\\linewidth}{%
-\\small\\begin{tabular}{|c|l|c|}
+\\begin{tabular}{|c|l|c|}
     \\hline
     \\rowcolor{accentorange!30}
     \\textbf{Faza} & \\textbf{Naziv} & \\textbf{Trajanje} \\\\
     \\hline
-    1 & Uvodni dio (motivacija, najava teme, povezivanje sa prethodnim gradivom) & 5 min \\\\
+    1 & Uvodni dio (motivacija, najava teme, povezivanje sa TTL) & 5 min \\\\
     \\hline
-    2 & Glavni dio I -- Uvod u I\\textsuperscript{2}L, historija, osnovna struktura & 12 min \\\\
+    2 & Glavni dio I - Uvod u I\\textsuperscript{2}L, historija, osnovna struktura & 12 min \\\\
     \\hline
-    3 & Glavni dio II -- Princip rada, logička stanja, višestruki kolektori & 12 min \\\\
+    3 & Glavni dio II - Princip rada, logička stanja, višestruki kolektori & 12 min \\\\
     \\hline
-    4 & Glavni dio III -- Karakteristike, usporedba, prednosti/nedostaci & 8 min \\\\
+    4 & Glavni dio III - Karakteristike, usporedba, prednosti/nedostaci & 8 min \\\\
     \\hline
     5 & Završni dio (ponavljanje, radni listić, zaključak) & 8 min \\\\
     \\hline
-\\end{tabularx}
+\\end{tabular}}
 \\end{alertbox}
+
 \\vspace{0.3cm}
+
 \\subsection{UVODNI DIO (5 minuta)}
+
+\\renewcommand{\\arraystretch}{1.5}
+\\small
 \\noindent\\adjustbox{max width=\\linewidth}{%
-\\renewcommand{\\arraystretch}{1.5}\\small
 \\begin{tabular}{|L{7.5cm}|L{7.5cm}|}
     \\hline
     \\rowcolor{primaryblue}
-    \\multicolumn{1}{|c|}{\\textcolor{white}{\\textbf{AKTIVNOST NASTAVNIKA}}} & \\multicolumn{1}{c|}{\\textcolor{white}{\\textbf{AKTIVNOST UČENIKA}}} \\\\
+    \\multicolumn{1}{|c|}{\\textcolor{white}{\\textbf{AKTIVNOST NASTAVNIKA}}} &
+    \\multicolumn{1}{c|}{\\textcolor{white}{\\textbf{AKTIVNOST UČENIKA}}} \\\\
     \\hline
     \\multicolumn{2}{|c|}{\\cellcolor{primaryblue!15}\\textbf{MOTIVACIJA I NAJAVA (5 min)}} \\\\
     \\hline
     Pozdravlja učenike. Podsjeća na prethodne lekcije: \\textit{,,Učili smo o TTL logici. Koliko tranzistora ima TTL NAND vrata?''}
-    Uvodi problem: \\textit{,,1970-ih TTL je bio previše složen. Inženjeri su tražili jednostavnije rješenje.''}
-    Najavljuje temu: \\textbf{I\\textsuperscript{2}L -- samo 2 tranzistora po vratima!} &
-    Odgovaraju na pitanja (TTL ima 4+ tranzistora). Razmišljaju o problemu složenosti. Zapisuju naslov u bilježnice. \\\\
+
+    Uvodi problem: \\textit{,,1970-ih TTL je bio previše složen. Inženjeri su tražili jednostavnije rješenje...''}
+
+    Najavljuje temu: \\textbf{I\\textsuperscript{2}L - samo 2 tranzistora po vratima!} &
+    Odgovaraju na pitanja (TTL ima 4+ tranzistora).
+
+    Razmišljaju o problemu složenosti.
+
+    Zapisuju naslov: \\textbf{,,I\\textsuperscript{2}L - Integrirana Injekcijska Logika''}
+    \\\\
     \\hline
 \\end{tabular}}
+
 \\vspace{0.3cm}
-\\subsection{GLAVNI DIO I -- Uvod u I\\textsuperscript{2}L, historija, struktura (12 minuta)}
+
+\\subsection{GLAVNI DIO I - Uvod u I\\textsuperscript{2}L, historija, osnovna struktura (12 minuta)}
+
+\\small
 \\noindent\\adjustbox{max width=\\linewidth}{%
-\\renewcommand{\\arraystretch}{1.5}\\small
 \\begin{tabular}{|L{7.5cm}|L{7.5cm}|}
     \\hline
     \\rowcolor{secondaryblue}
-    \\multicolumn{1}{|c|}{\\textcolor{white}{\\textbf{AKTIVNOST NASTAVNIKA}}} & \\multicolumn{1}{c|}{\\textcolor{white}{\\textbf{AKTIVNOST UČENIKA}}} \\\\
+    \\multicolumn{1}{|c|}{\\textcolor{white}{\\textbf{AKTIVNOST NASTAVNIKA}}} &
+    \\multicolumn{1}{c|}{\\textcolor{white}{\\textbf{AKTIVNOST UČENIKA}}} \\\\
     \\hline
     \\multicolumn{2}{|c|}{\\cellcolor{secondaryblue!15}\\textbf{DEFINICIJA I HISTORIJA (4 min)}} \\\\
     \\hline
-    Objašnjava skraćenicu: \\textit{,,I\\textsuperscript{2}L = Integrated Injection Logic = Integrirana Injekcijska Logika''}. Historijski kontekst: 1972., Hart i Slob (Philips), Berger i Wiedmann (IBM). &
-    Prate izlaganje. Zapisuju: I\\textsuperscript{2}L = Integrated Injection Logic, godina: 1972. \\\\
+    Objašnjava skraćenicu: \\textit{,,I\\textsuperscript{2}L = Integrated Injection Logic = Integrirana Injekcijska Logika''}
+
+    Historijski kontekst:
+    \\begin{itemize}[nosep,leftmargin=*,font=\\footnotesize]
+        \\item 1972. - Hart i Slob (Philips)
+        \\item Istovremeno Berger i Wiedmann (IBM)
+        \\item Revolucija u gustoći integracije
+    \\end{itemize} &
+    Prate izlaganje.
+
+    Zapisuju: I\\textsuperscript{2}L = Integrated Injection Logic
+
+    Zapisuju godinu: 1972.
+    \\\\
     \\hline
     \\multicolumn{2}{|c|}{\\cellcolor{secondaryblue!15}\\textbf{OSNOVNA STRUKTURA ĆELIJE (8 min)}} \\\\
     \\hline
-    Crta blok dijagram: \\textbf{PNP injektor} (lateralni, izvor struje) + \\textbf{NPN prekidač} (vertikalni, logička funkcija). Crta shemu. \\textit{,,Samo 2 tranzistora umjesto 4+ kod TTL!''} &
-    Crtaju dijagram u bilježnice. Označavaju: $V_{CC}$, GND, ulaz, izlazi ($C_1, C_2, C_n$). \\\\
+    Crta blok dijagram I\\textsuperscript{2}L ćelije i objašnjava:
+    \\begin{itemize}[nosep,leftmargin=*,font=\\footnotesize]
+        \\item \\textbf{PNP injektor} - lateralni tranzistor, izvor struje
+        \\item \\textbf{NPN prekidač} - vertikalni tranzistor, logička funkcija
+        \\item Višestruki kolektori na NPN-u
+    \\end{itemize}
+
+    Crta električnu shemu ćelije.
+
+    \\textit{,,Samo 2 tranzistora umjesto 4+ kod TTL!''} &
+    Crtaju blok dijagram u bilježnice:
+
+    [PNP] $\\rightarrow I_{inj} \\rightarrow$ [NPN]
+
+    Označavaju: $V_{CC}$, GND, ulaz, izlazi ($C_1$, $C_2$, $C_n$)
+
+    Crtaju shemu sa simbolima tranzistora.
+    \\\\
     \\hline
 \\end{tabular}}
+
+% ==================== STRANA 4: ARTIKULACIJA (NASTAVAK) ====================
 \\newpage
-\\subsection{GLAVNI DIO II -- Princip rada, logička stanja (12 minuta)}
+
+\\subsection{GLAVNI DIO II - Princip rada, logička stanja (12 minuta)}
+
+\\small
 \\noindent\\adjustbox{max width=\\linewidth}{%
-\\renewcommand{\\arraystretch}{1.5}\\small
 \\begin{tabular}{|L{7.5cm}|L{7.5cm}|}
     \\hline
     \\rowcolor{accentgreen}
-    \\multicolumn{1}{|c|}{\\textcolor{white}{\\textbf{AKTIVNOST NASTAVNIKA}}} & \\multicolumn{1}{c|}{\\textcolor{white}{\\textbf{AKTIVNOST UČENIKA}}} \\\\
+    \\multicolumn{1}{|c|}{\\textcolor{white}{\\textbf{AKTIVNOST NASTAVNIKA}}} &
+    \\multicolumn{1}{c|}{\\textcolor{white}{\\textbf{AKTIVNOST UČENIKA}}} \\\\
     \\hline
     \\multicolumn{2}{|c|}{\\cellcolor{accentgreen!15}\\textbf{INJEKCIJA STRUJE (4 min)}} \\\\
     \\hline
-    Objašnjava: emiter PNP na $V_{CC}$, kolektor PNP = baza NPN. \\textit{,,PNP ubrizgava struju u bazu NPN-a.''}\\\\Formula: $I_{inj} = \\frac{V_{CC} - V_{BE}}{R_{inj}}$ &
-    Prate na dijagramu. Zapisuju formulu za $I_{inj}$. Razumiju pojam injekcije struje. \\\\
+    Objašnjava ulogu PNP injektora:
+    \\begin{itemize}[nosep,leftmargin=*,font=\\footnotesize]
+        \\item Emiter PNP spojen na $V_{CC}$
+        \\item Kolektor PNP = Baza NPN
+        \\item Injekcijska struja: $I_{inj} = \\frac{V_{CC} - V_{BE}}{R_{inj}}$
+    \\end{itemize}
+
+    \\textit{,,PNP ubrizgava struju u bazu NPN-a.''} &
+    Prate objašnjenje na dijagramu.
+
+    Zapisuju formulu za $I_{inj}$.
+
+    Razumiju pojam ,,injekcija'' struje.
+    \\\\
     \\hline
     \\multicolumn{2}{|c|}{\\cellcolor{accentgreen!15}\\textbf{LOGIČKA STANJA (5 min)}} \\\\
     \\hline
-    \\textbf{Ulaz LOW (0V):} NPN OFF, $I_{inj}$ na izlaz, Izlaz = HIGH ($\\approx$0.7V).\\\\
-    \\textbf{Ulaz HIGH ($V_{BE}$):} NPN SAT, $I_{inj}$ kroz NPN, Izlaz = LOW ($\\approx$0.1V).\\\\
+    Objašnjava dva stanja:
+
+    \\textbf{Ulaz LOW (0V):}
+    \\begin{itemize}[nosep,leftmargin=*,font=\\footnotesize]
+        \\item NPN isključen (OFF)
+        \\item $I_{inj}$ odlazi na izlaz
+        \\item Izlaz = HIGH ($\\approx 0.7$V)
+    \\end{itemize}
+
+    \\textbf{Ulaz HIGH ($V_{BE}$):}
+    \\begin{itemize}[nosep,leftmargin=*,font=\\footnotesize]
+        \\item NPN zasićen (SAT)
+        \\item $I_{inj}$ teče kroz NPN
+        \\item Izlaz = LOW ($\\approx 0.1$V)
+    \\end{itemize}
+
     Crta tablicu istinitosti: \\textbf{INVERTOR!} &
-    Crtaju tablicu: 0$\\to$1, 1$\\to$0. Zaključuju: I\\textsuperscript{2}L ćelija = INVERTOR. \\\\
+    Crtaju tablicu stanja:
+
+    \\begin{tabular}{|c|c|}
+    \\hline
+    Ulaz & Izlaz \\\\
+    \\hline
+    0 & 1 \\\\
+    1 & 0 \\\\
+    \\hline
+    \\end{tabular}
+
+    Zaključuju: I\\textsuperscript{2}L ćelija = INVERTOR
+    \\\\
     \\hline
     \\multicolumn{2}{|c|}{\\cellcolor{accentgreen!15}\\textbf{VIŠESTRUKI KOLEKTORI (3 min)}} \\\\
     \\hline
-    Objašnjava: jedan NPN može imati više kolektora. \\textbf{Wired-AND} spajanjem kolektora.\\\\$Y = \\overline{A+B}$ (NOR) &
-    Zapisuju: fan-out = 3--8. Razumiju Wired-AND i NOR funkciju. \\\\
+    Objašnjava prednost višestrukih kolektora:
+    \\begin{itemize}[nosep,leftmargin=*,font=\\footnotesize]
+        \\item Jedan NPN može imati više kolektora
+        \\item Svaki kolektor = nezavisan izlaz
+        \\item Fan-out bez dodatnih vrata
+        \\item \\textbf{Wired-AND} spajanjem kolektora
+    \\end{itemize}
+
+    Piše: $Y = \\overline{A} \\cdot \\overline{B} = \\overline{A+B}$ (NOR) &
+    Zapisuju: fan-out = 3-8 tipično
+
+    Razumiju koncept Wired-AND.
+
+    Zapisuju formulu za NOR funkciju.
+    \\\\
     \\hline
 \\end{tabular}}
+
 \\vspace{0.3cm}
-\\subsection{GLAVNI DIO III -- Karakteristike, usporedba (8 minuta)}
+
+\\subsection{GLAVNI DIO III - Karakteristike, usporedba (8 minuta)}
+
+\\small
 \\noindent\\adjustbox{max width=\\linewidth}{%
-\\renewcommand{\\arraystretch}{1.5}\\small
 \\begin{tabular}{|L{7.5cm}|L{7.5cm}|}
     \\hline
     \\rowcolor{accentorange}
-    \\multicolumn{1}{|c|}{\\textcolor{white}{\\textbf{AKTIVNOST NASTAVNIKA}}} & \\multicolumn{1}{c|}{\\textcolor{white}{\\textbf{AKTIVNOST UČENIKA}}} \\\\
+    \\multicolumn{1}{|c|}{\\textcolor{white}{\\textbf{AKTIVNOST NASTAVNIKA}}} &
+    \\multicolumn{1}{c|}{\\textcolor{white}{\\textbf{AKTIVNOST UČENIKA}}} \\\\
     \\hline
     \\multicolumn{2}{|c|}{\\cellcolor{accentorange!15}\\textbf{NAPONSKI NIVOI (3 min)}} \\\\
     \\hline
-    Navodi: $V_{OH}$=0.7V, $V_{OL}$=0.1V, $V_{swing}$=0.6V.\\\\Uspoređuje: TTL ima $V_{swing}\\approx$3.5V &
-    Zapisuju nivoe. Uočavaju mali $V_{swing}$ kao nedostatak. \\\\
+    Navodi karakteristične napone:
+    \\begin{itemize}[nosep,leftmargin=*,font=\\footnotesize]
+        \\item $V_{OH}$ = 0.7V (HIGH)
+        \\item $V_{OL}$ = 0.1V (LOW)
+        \\item $V_{swing}$ = 0.6V (mali!)
+    \\end{itemize}
+
+    Uspoređuje: TTL ima $V_{swing} \\approx 3.5$V &
+    Zapisuju naponske nivoe.
+
+    Uočavaju mali naponski hod kao nedostatak.
+    \\\\
     \\hline
     \\multicolumn{2}{|c|}{\\cellcolor{accentorange!15}\\textbf{USPOREDBA I PREDNOSTI/NEDOSTACI (5 min)}} \\\\
     \\hline
-    Crta tabelu: I\\textsuperscript{2}L ($<$1V, 0.01--1mW) vs TTL (5V, 10mW) vs CMOS (3--5V, $\\mu$W).\\\\
-    \\textbf{+} Visoka gustoća, mala potrošnja, jednostavan proces.\\\\
-    \\textbf{--} Mali $V_{swing}$, osjetljivost na šum, zastarjelo. &
-    Crtaju tabelu usporedbe. Zapisuju 3 prednosti i 3 nedostatka. \\\\
+    Crta tabelu usporedbe I\\textsuperscript{2}L, TTL, CMOS:
+    \\begin{itemize}[nosep,leftmargin=*,font=\\footnotesize]
+        \\item Napajanje: I\\textsuperscript{2}L < 1V, TTL 5V
+        \\item Potrošnja: I\\textsuperscript{2}L 0.01-1 mW, TTL 1-20 mW
+        \\item Gustoća: I\\textsuperscript{2}L najveća
+    \\end{itemize}
+
+    Navodi prednosti i nedostatke:
+
+    \\textbf{+} Visoka gustoća, mala potrošnja, jednostavan proces
+
+    \\textbf{--} Mali $V_{swing}$, osjetljivost na šum, zastarjelo &
+    Crtaju tabelu usporedbe.
+
+    Zapisuju prednosti (3) i nedostatke (3).
+
+    Razumiju zašto je CMOS zamijenio I\\textsuperscript{2}L.
+    \\\\
     \\hline
 \\end{tabular}}
+
+% ==================== STRANA 5: ZAVRŠNI DIO + PLAN PLOČE ====================
 \\newpage
+
 \\subsection{ZAVRŠNI DIO (8 minuta)}
+
+\\small
 \\noindent\\adjustbox{max width=\\linewidth}{%
-\\renewcommand{\\arraystretch}{1.5}\\small
 \\begin{tabular}{|L{7.5cm}|L{7.5cm}|}
     \\hline
     \\rowcolor{primaryblue}
-    \\multicolumn{1}{|c|}{\\textcolor{white}{\\textbf{AKTIVNOST NASTAVNIKA}}} & \\multicolumn{1}{c|}{\\textcolor{white}{\\textbf{AKTIVNOST UČENIKA}}} \\\\
+    \\multicolumn{1}{|c|}{\\textcolor{white}{\\textbf{AKTIVNOST NASTAVNIKA}}} &
+    \\multicolumn{1}{c|}{\\textcolor{white}{\\textbf{AKTIVNOST UČENIKA}}} \\\\
     \\hline
     \\multicolumn{2}{|c|}{\\cellcolor{primaryblue!15}\\textbf{PONAVLJANJE (5 min)}} \\\\
     \\hline
-    Postavlja pitanja:\\\\
-    1. Šta znači I\\textsuperscript{2}L?\\\\2. Dva elementa ćelije?\\\\3. Funkcija PNP?\\\\4. Logička funkcija?\\\\5. $V_{OH}$=? \\quad 6. Glavna prednost? &
-    Odgovaraju:\\\\
-    1. Integrated Injection Logic\\\\2. PNP+NPN\\\\3. Izvor struje\\\\4. INVERTOR\\\\5. 0.7V \\quad 6. Visoka gustoća \\\\
+    Postavlja pitanja za ponavljanje:
+    \\begin{enumerate}[nosep,leftmargin=*,font=\\footnotesize]
+        \\item Šta znači I\\textsuperscript{2}L?
+        \\item Koja su dva elementa I\\textsuperscript{2}L ćelije?
+        \\item Koja je funkcija PNP tranzistora?
+        \\item Koju logičku funkciju obavlja I\\textsuperscript{2}L ćelija?
+        \\item Koliki je $V_{OH}$ u I\\textsuperscript{2}L?
+        \\item Koja je glavna prednost I\\textsuperscript{2}L?
+    \\end{enumerate} &
+    Odgovaraju:
+    \\begin{enumerate}[nosep,leftmargin=*,font=\\footnotesize]
+        \\item Integrated Injection Logic
+        \\item PNP injektor + NPN prekidač
+        \\item Izvor injekcijske struje
+        \\item INVERTOR
+        \\item 0.7V
+        \\item Visoka gustoća integracije
+    \\end{enumerate} \\\\
     \\hline
     \\multicolumn{2}{|c|}{\\cellcolor{primaryblue!15}\\textbf{RADNI LISTIĆ I ZAKLJUČAK (3 min)}} \\\\
     \\hline
-    Dijeli radne listiće. Zaključak: \\textit{,,I\\textsuperscript{2}L -- ključna prijelazna tehnologija TTL$\\to$CMOS.''}\\\\Najava: \\textit{,,Sljedeći čas: CMOS logička kola.''} &
-    Primaju listiće. Počinju rješavati. Pozdravljaju nastavnika. \\\\
+    Dijeli radne listiće.
+
+    Zaključak: \\textit{,,I\\textsuperscript{2}L je bila ključna prijelazna tehnologija između TTL-a i CMOS-a. Danas se rijetko koristi, ali principi su važni za razumijevanje evolucije digitalne elektronike.''}
+
+    Najava: \\textit{,,Sljedeći čas - CMOS logička kola.''} &
+    Primaju radne listiće.
+
+    Počinju rješavati ili zapisuju za domaću zadaću.
+
+    Pozdravljaju nastavnika.
+    \\\\
     \\hline
 \\end{tabular}}
+
 \\vspace{0.4cm}
+
 \\section{Plan ploče}
+
 \\begin{center}
-\\adjustbox{max width=\\linewidth}{%
-\\begin{tikzpicture}[scale=0.78]
+\\noindent\\adjustbox{max width=\\linewidth}{%
+\\begin{tikzpicture}[scale=0.82]
     \\draw[very thick, primaryblue, rounded corners] (0,0) rectangle (20,13);
     \\fill[primaryblue!5] (0.1,0.1) rectangle (19.9,12.9);
-    \\node[font=\\normalsize\\bfseries] at (10,12.3) {I\\textsuperscript{2}L -- INTEGRIRANA INJEKCIJSKA LOGIKA};
+
+    % Naslov
+    \\node[font=\\large\\bfseries] at (10,12.3) {I\\textsuperscript{2}L - INTEGRIRANA INJEKCIJSKA LOGIKA};
     \\draw[primaryblue, thick] (1,11.8) -- (19,11.8);
+
+    % Lijevi dio - Definicija i struktura
     \\node[font=\\bfseries\\small, primaryblue] at (5,11.3) {DEFINICIJA};
     \\draw[thick] (0.5,9.5) rectangle (9.5,11);
-    \\node[align=left, font=\\scriptsize, anchor=north west] at (0.7,10.8) {I\\textsuperscript{2}L = Integrated Injection Logic\\\\Godina: 1972. (Philips, IBM)\\\\Bipolarna logička obitelj, 2 tranzistora/vrata};
+    \\node[align=left, font=\\scriptsize, anchor=north west] at (0.7,10.8) {
+        I\\textsuperscript{2}L = Integrated Injection Logic\\\\
+        Godina: 1972. (Philips, IBM)\\\\
+        Bipolarna logička obitelj, 2 tranzistora/vrata
+    };
+
     \\node[font=\\bfseries\\small, primaryblue] at (5,9.1) {OSNOVNA STRUKTURA};
     \\draw[thick] (0.5,6.8) rectangle (9.5,8.8);
-    \\node[align=left, font=\\scriptsize, anchor=north west] at (0.7,8.6) {1. \\textbf{PNP injektor} -- lateralni, izvor struje\\\\2. \\textbf{NPN prekidač} -- vertikalni, logička funkcija\\\\Višestruki kolektori $\\rightarrow$ fan-out};
+    \\node[align=left, font=\\scriptsize, anchor=north west] at (0.7,8.6) {
+        1. \\textbf{PNP injektor} - lateralni, izvor struje\\\\
+        2. \\textbf{NPN prekidač} - vertikalni, logička funkcija\\\\
+        Višestruki kolektori $\\rightarrow$ fan-out
+    };
+
+    % Desni dio - Princip rada
     \\node[font=\\bfseries\\small, primaryblue] at (15,11.3) {PRINCIP RADA};
     \\draw[thick] (10.5,9.5) rectangle (19.5,11);
-    \\node[align=left, font=\\scriptsize, anchor=north west] at (10.7,10.8) {$I_{inj}$ iz PNP u bazu NPN\\\\Ulaz LOW $\\rightarrow$ NPN OFF $\\rightarrow$ Izlaz HIGH\\\\Ulaz HIGH $\\rightarrow$ NPN SAT $\\rightarrow$ Izlaz LOW};
+    \\node[align=left, font=\\scriptsize, anchor=north west] at (10.7,10.8) {
+        $I_{inj}$ = injekcijska struja (iz PNP u bazu NPN)\\\\
+        Ulaz LOW $\\rightarrow$ NPN OFF $\\rightarrow$ Izlaz HIGH\\\\
+        Ulaz HIGH $\\rightarrow$ NPN SAT $\\rightarrow$ Izlaz LOW
+    };
+
     \\node[font=\\bfseries\\small, primaryblue] at (15,9.1) {NAPONSKI NIVOI};
     \\draw[thick] (10.5,6.8) rectangle (19.5,8.8);
-    \\node[align=left, font=\\scriptsize, anchor=north west] at (10.7,8.6) {$V_{OH}$ = 0.7V (HIGH) = $V_{BE}$\\\\$V_{OL}$ = 0.1V (LOW) = $V_{CE,sat}$\\\\$V_{swing}$ = 0.6V (mali naponski hod!)};
+    \\node[align=left, font=\\scriptsize, anchor=north west] at (10.7,8.6) {
+        $V_{OH}$ = 0.7V (HIGH) = $V_{BE}$\\\\
+        $V_{OL}$ = 0.1V (LOW) = $V_{CE,sat}$\\\\
+        $V_{swing}$ = 0.6V (mali naponski hod!)
+    };
+
+    % Srednji dio - Logička funkcija i usporedba
     \\node[font=\\bfseries\\small, primaryblue] at (5,6.4) {LOGIČKA FUNKCIJA};
     \\draw[thick] (0.5,4.8) rectangle (9.5,6.1);
-    \\node[align=left, font=\\scriptsize, anchor=north west] at (0.7,5.9) {Osnovna ćelija = \\textbf{INVERTOR} ($Y = \\overline{A}$)\\\\Wired-AND: $Y = \\overline{A+B}$ = NOR funkcija};
+    \\node[align=left, font=\\scriptsize, anchor=north west] at (0.7,5.9) {
+        Osnovna ćelija = \\textbf{INVERTOR} ($Y = \\overline{A}$)\\\\
+        Wired-AND: $Y = \\overline{A+B}$ = NOR funkcija
+    };
+
     \\node[font=\\bfseries\\small, primaryblue] at (15,6.4) {USPOREDBA};
     \\draw[thick] (10.5,4.8) rectangle (19.5,6.1);
-    \\node[align=center, font=\\scriptsize, text width=8cm] at (15,5.45) {I\\textsuperscript{2}L: $<$1V, 0.01\,mW \\\\ TTL: 5V, 10\,mW \\\\ CMOS: 3--5V, $\\mu$W};
+    \\node[align=center, font=\\scriptsize, text width=8cm] at (15,5.45) {
+        I\\textsuperscript{2}L: <1V, 0.01mW \\\\ TTL: 5V, 10mW \\\\ CMOS: 3-5V, $\\mu$W
+    };
+
+    % Donji dio - Prednosti i nedostaci
     \\node[font=\\bfseries\\small, primaryblue] at (10,4.4) {PREDNOSTI I NEDOSTACI};
     \\draw[thick] (2,2) rectangle (18,4.1);
-    \\node[align=center, font=\\scriptsize] at (10,3.2) {\\textbf{+} Visoka gustoća $|$ Mala potrošnja $|$ Jednostavan proces\\\\\\textbf{--} Mali $V_{swing}$ (0.6V) $|$ Osjetljivost na šum $|$ Zastarjelo};
-    \\node[font=\\small, draw, fill=goldcolor!20, rounded corners, text width=16cm, align=center] at (10,1.2) {\\textbf{KLJUČNO:} I\\textsuperscript{2}L = PNP injektor + NPN prekidač = INVERTOR sa višestrukim izlazima};
+    \\node[align=center, font=\\scriptsize] at (10,3.2) {
+        \\textbf{+} Visoka gustoća | Mala potrošnja | Jednostavan proces | Podešiva brzina/snaga\\\\
+        \\textbf{--} Mali $V_{swing}$ (0.6V) | Osjetljivost na šum | Ograničen fan-out | Zastarjelo
+    };
+
+    % Formula dole
+    \\node[font=\\small, draw, fill=goldcolor!20, rounded corners, text width=16cm, align=center] at (10,1.2) {
+        \\textbf{KLJUČNO:} I\\textsuperscript{2}L = PNP injektor + NPN prekidač = INVERTOR sa višestrukim izlazima
+    };
+
 \\end{tikzpicture}}
 \\end{center}
+
+% ==================== STRANA 6: RADNI LISTIĆ ====================
 \\newpage
 \\section{Radni listić za učenike}
-\\begin{tcolorbox}[colback=white,colframe=primaryblue,title={\\faMicrochip\\ RADNI LISTIĆ -- I\\textsuperscript{2}L Integrirana Injekcijska Logika},fonttitle=\\bfseries,breakable]
+
+\\begin{tcolorbox}[colback=white, colframe=primaryblue, title={\\faMicrochip\\ RADNI LISTIĆ - I\\textsuperscript{2}L Integrirana Injekcijska Logika}, fonttitle=\\bfseries, breakable]
+
 \\small
-\\textbf{Ime i prezime:} \\underline{\\hspace{4cm}} \\textbf{Razred:} \\underline{\\hspace{1.5cm}} \\textbf{Datum:} \\underline{\\hspace{2cm}}
-\\vspace{0.3cm}
+\\textbf{Ime i prezime:} \\underline{\\hspace{4.5cm}} \\textbf{Razred:} \\underline{\\hspace{1.5cm}} \\textbf{Datum:} \\underline{\\hspace{2cm}}
 
-\\textbf{1.} Napišite puni naziv skraćenice I\\textsuperscript{2}L na engleskom i bosanskom: (2 boda)\\\\
-Engleski: \\underline{\\hspace{5.5cm}} \\quad Bosanski: \\underline{\\hspace{5.5cm}}
-\\vspace{0.3cm}
-
-\\textbf{2.} Navedite dva osnovna elementa I\\textsuperscript{2}L ćelije i funkciju: (4 boda)\\\\
-\\noindent\\adjustbox{max width=\\linewidth}{%
-\\begin{tabular}{|l|l|l|}\\hline & \\textbf{Element} & \\textbf{Funkcija} \\\\\\hline a) & \\underline{\\hspace{4cm}} & \\underline{\\hspace{6cm}} \\\\\\hline b) & \\underline{\\hspace{4cm}} & \\underline{\\hspace{6cm}} \\\\\\hline\\end{tabular}}
-\\vspace{0.3cm}
-
-\\textbf{3.} Dopunite naponske nivoe I\\textsuperscript{2}L logike: (3 boda)\\\\
-$V_{OH}$ = \\underline{\\hspace{1.8cm}} V \\qquad $V_{OL}$ = \\underline{\\hspace{1.8cm}} V \\qquad $V_{swing}$ = \\underline{\\hspace{1.8cm}} V
-\\vspace{0.3cm}
-
-\\textbf{4.} Popunite tablicu istinitosti i napišite logičku funkciju: (3 boda)\\\\
-\\begin{minipage}{0.28\\textwidth}\\begin{tabular}{|c|c|}\\hline \\textbf{Ulaz A} & \\textbf{Izlaz Y} \\\\\\hline 0 & \\underline{\\hspace{1cm}} \\\\\\hline 1 & \\underline{\\hspace{1cm}} \\\\\\hline\\end{tabular}\\end{minipage}\\hfill\\begin{minipage}{0.68\\textwidth}Logička funkcija: $Y =$ \\underline{\\hspace{2.5cm}}\\\\[0.3cm]Naziv funkcije: \\underline{\\hspace{3.5cm}}\\end{minipage}
-\\vspace{0.3cm}
-
-\\textbf{5.} Šta je "Wired-AND" i koja logička funkcija nastaje spajanjem kolektora? (2 boda)\\\\
-\\vspace{0.7cm}\\dotfill
-\\vspace{0.3cm}
-
-\\textbf{6.} Dopunite tabelu usporedbe logičkih obitelji: (3 boda)\\\\
-\\noindent\\adjustbox{max width=\\linewidth}{%
-\\begin{tabular}{|l|c|c|c|}\\hline \\textbf{Parametar} & \\textbf{I\\textsuperscript{2}L} & \\textbf{TTL} & \\textbf{CMOS} \\\\\\hline Napajanje & \\underline{\\hspace{2cm}} V & 5 V & 3.3--5 V \\\\\\hline Potrošnja/vrata & 0.01--1 mW & \\underline{\\hspace{2cm}} mW & $\\mu$W \\\\\\hline Gustoća integracije & \\underline{\\hspace{2cm}} & Srednja & Visoka \\\\\\hline\\end{tabular}}
-\\vspace{0.3cm}
-
-\\textbf{7.} Navedite tri prednosti I\\textsuperscript{2}L tehnologije: (3 boda)\\\\
-a) \\underline{\\hspace{4.5cm}} \\quad b) \\underline{\\hspace{4.5cm}} \\quad c) \\underline{\\hspace{4.5cm}}
-\\vspace{0.3cm}
-
-\\textbf{8.} Navedite tri nedostatka I\\textsuperscript{2}L tehnologije: (3 boda)\\\\
-a) \\underline{\\hspace{4.5cm}} \\quad b) \\underline{\\hspace{4.5cm}} \\quad c) \\underline{\\hspace{4.5cm}}
-\\vspace{0.3cm}
-
-\\textbf{9.} Koje godine je razvijena I\\textsuperscript{2}L i koje kompanije su je razvile? (2 boda)\\\\
-Godina: \\underline{\\hspace{2cm}} \\qquad Kompanije: \\underline{\\hspace{3.5cm}} i \\underline{\\hspace{3.5cm}}
 \\vspace{0.4cm}
-\\begin{flushright}\\textbf{Ukupno:} \\underline{\\hspace{1.5cm}} / 25 \\qquad \\textbf{Ocjena:} \\underline{\\hspace{1.5cm}}\\end{flushright}
+
+\\textbf{1.} Napišite puni naziv skraćenice I\\textsuperscript{2}L na engleskom i bosanskom jeziku: (2 boda)
+
+Engleski: \\underline{\\hspace{6cm}} Bosanski: \\underline{\\hspace{6cm}}
+
+\\vspace{0.3cm}
+
+\\textbf{2.} Navedite dva osnovna elementa I\\textsuperscript{2}L ćelije i njihovu funkciju: (4 boda)
+
+\\noindent\\adjustbox{max width=\\linewidth}{%
+\\begin{tabular}{|l|l|l|}
+\\hline
+& \\textbf{Element} & \\textbf{Funkcija} \\\\
+\\hline
+a) & \\underline{\\hspace{4cm}} & \\underline{\\hspace{6cm}} \\\\
+\\hline
+b) & \\underline{\\hspace{4cm}} & \\underline{\\hspace{6cm}} \\\\
+\\hline
+\\end{tabular}}
+
+\\vspace{0.3cm}
+
+\\textbf{3.} Dopunite naponske nivoe I\\textsuperscript{2}L logike: (3 boda)
+
+$V_{OH}$ (izlaz HIGH) = \\underline{\\hspace{2cm}} V \\qquad $V_{OL}$ (izlaz LOW) = \\underline{\\hspace{2cm}} V \\qquad $V_{swing}$ = \\underline{\\hspace{2cm}} V
+
+\\vspace{0.3cm}
+
+\\textbf{4.} Popunite tablicu istinitosti za osnovnu I\\textsuperscript{2}L ćeliju i napišite logičku funkciju: (3 boda)
+
+\\begin{minipage}{0.3\\textwidth}
+\\begin{tabular}{|c|c|}
+\\hline
+\\textbf{Ulaz A} & \\textbf{Izlaz Y} \\\\
+\\hline
+0 & \\underline{\\hspace{1cm}} \\\\
+\\hline
+1 & \\underline{\\hspace{1cm}} \\\\
+\\hline
+\\end{tabular}
+\\end{minipage}
+\\hfill
+\\begin{minipage}{0.6\\textwidth}
+Logička funkcija: $Y =$ \\underline{\\hspace{3cm}}
+
+Naziv ove funkcije: \\underline{\\hspace{4cm}}
+\\end{minipage}
+
+\\vspace{0.3cm}
+
+\\textbf{5.} Šta je "Wired-AND" i koja se logička funkcija dobija spajanjem kolektora dvije I\\textsuperscript{2}L ćelije? (2 boda)
+
+\\vspace{0.8cm}
+\\dotfill
+
+\\vspace{0.3cm}
+
+\\textbf{6.} Dopunite tabelu usporedbe logičkih obitelji: (3 boda)
+
+\\noindent\\adjustbox{max width=\\linewidth}{%
+\\begin{tabular}{|l|c|c|c|}
+\\hline
+\\textbf{Parametar} & \\textbf{I\\textsuperscript{2}L} & \\textbf{TTL} & \\textbf{CMOS} \\\\
+\\hline
+Napajanje & \\underline{\\hspace{2cm}} V & 5 V & 3.3-5 V \\\\
+\\hline
+Potrošnja/vrata & 0.01-1 mW & \\underline{\\hspace{2cm}} mW & $\\mu$W \\\\
+\\hline
+Gustoća integracije & \\underline{\\hspace{2cm}} & Srednja & Visoka \\\\
+\\hline
+\\end{tabular}}
+
+\\vspace{0.3cm}
+
+\\textbf{7.} Navedite tri prednosti I\\textsuperscript{2}L tehnologije: (3 boda)
+
+a) \\underline{\\hspace{5cm}} \\quad b) \\underline{\\hspace{5cm}} \\quad c) \\underline{\\hspace{5cm}}
+
+\\vspace{0.3cm}
+
+\\textbf{8.} Navedite tri nedostatka I\\textsuperscript{2}L tehnologije: (3 boda)
+
+a) \\underline{\\hspace{5cm}} \\quad b) \\underline{\\hspace{5cm}} \\quad c) \\underline{\\hspace{5cm}}
+
+\\vspace{0.3cm}
+
+\\textbf{9.} Koje godine je razvijena I\\textsuperscript{2}L tehnologija i koje kompanije su je razvile? (2 boda)
+
+Godina: \\underline{\\hspace{2cm}} \\qquad Kompanije: \\underline{\\hspace{4cm}} i \\underline{\\hspace{4cm}}
+
+\\vspace{0.5cm}
+
+\\begin{flushright}
+\\textbf{Ukupno bodova:} \\underline{\\hspace{1.5cm}} / 25 \\qquad \\textbf{Ocjena:} \\underline{\\hspace{1.5cm}}
+\\end{flushright}
+
 \\end{tcolorbox}
+
+% ==================== STRANA 7: RJEŠENJA I EVALUACIJA ====================
 \\newpage
 \\section{Rješenja radnog listića}
+
 \\begin{successbox}[\\faCheckCircle\\ RJEŠENJA]
 \\small
-\\textbf{1.} Engleski: \\textbf{Integrated Injection Logic} \\quad Bosanski: \\textbf{Integrirana Injekcijska Logika} (2 boda)\\\\[4pt]
-\\textbf{2.} a) \\textbf{PNP injektor} -- izvor injekcijske struje \\quad b) \\textbf{NPN prekidač} -- logička funkcija (4 boda)\\\\[4pt]
-\\textbf{3.} $V_{OH}$ = \\textbf{0.7} V, $V_{OL}$ = \\textbf{0.1} V, $V_{swing}$ = \\textbf{0.6} V (3 boda)\\\\[4pt]
-\\textbf{4.} 0$\\to$\\textbf{1}, 1$\\to$\\textbf{0} \\quad $Y = \\overline{A}$ \\quad Naziv: \\textbf{INVERTOR} (NOT) (3 boda)\\\\[4pt]
-\\textbf{5.} Wired-AND = spajanje kolektora različitih ćelija -- AND funkcija invertiranih ulaza. Dvije ćelije $\\to$ \\textbf{NOR}: $Y = \\overline{A+B}$ (2 boda)\\\\[4pt]
-\\textbf{6.} I\\textsuperscript{2}L napajanje: \\textbf{$<$1V}, TTL potrošnja: \\textbf{1--20 mW}, I\\textsuperscript{2}L gustoća: \\textbf{Vrlo visoka} (3 boda)\\\\[4pt]
-\\textbf{7.} Visoka gustoća integracije, Niska potrošnja snage, Jednostavan proizvodni proces (3 boda)\\\\[4pt]
-\\textbf{8.} Mali naponski hod (0.6V), Niska otpornost na šum, Ograničen fan-out (3 boda)\\\\[4pt]
-\\textbf{9.} Godina: \\textbf{1972} \\quad Kompanije: \\textbf{Philips} i \\textbf{IBM} (2 boda)\\\\[6pt]
-\\textbf{Skala:} 0--12=nedovoljan(1), 13--15=dovoljan(2), 16--18=dobar(3), 19--22=vrlo dobar(4), 23--25=odličan(5)
+\\textbf{1.} Engleski: \\textbf{Integrated Injection Logic} \\quad Bosanski: \\textbf{Integrirana Injekcijska Logika} (2 boda)
+
+\\textbf{2.} (4 boda)
+\\begin{tabular}{|l|l|l|}
+\\hline
+a) & \\textbf{PNP injektor} & Izvor konstantne (injekcijske) struje \\\\
+\\hline
+b) & \\textbf{NPN prekidač} & Obavlja logičku funkciju (prekidanje) \\\\
+\\hline
+\\end{tabular}
+
+\\textbf{3.} $V_{OH}$ = \\textbf{0.7} V \\qquad $V_{OL}$ = \\textbf{0.1} V \\qquad $V_{swing}$ = \\textbf{0.6} V (3 boda)
+
+\\textbf{4.} Tablica: 0$\\rightarrow$\\textbf{1}, 1$\\rightarrow$\\textbf{0} \\quad Funkcija: $Y = \\overline{A}$ \\quad Naziv: \\textbf{INVERTOR} (NOT) (3 boda)
+
+\\textbf{5.} \\textbf{Wired-AND} je tehnika spajanja kolektora različitih ćelija koja daje AND funkciju invertiranih ulaza. Spajanjem dvije I\\textsuperscript{2}L ćelije dobija se \\textbf{NOR} funkcija: $Y = \\overline{A+B}$ (2 boda)
+
+\\textbf{6.} I\\textsuperscript{2}L napajanje: \\textbf{<1V (0.7-1V)}, TTL potrošnja: \\textbf{1-20 mW}, I\\textsuperscript{2}L gustoća: \\textbf{Vrlo visoka} (3 boda)
+
+\\textbf{7.} Prednosti (bilo koje 3): Vrlo visoka gustoća integracije, Niska potrošnja snage, Jednostavan proizvodni proces, Kompatibilnost s linearnim krugovima, Podešiv trade-off snaga/brzina (3 boda)
+
+\\textbf{8.} Nedostaci (bilo koje 3): Mali naponski hod (0.6V), Niska otpornost na šum, Ograničen fan-out, Ograničena brzina, Teško sučeljavanje s TTL, Zastarjela tehnologija (3 boda)
+
+\\textbf{9.} Godina: \\textbf{1972} \\quad Kompanije: \\textbf{Philips} i \\textbf{IBM} (2 boda)
+
+\\vspace{0.3cm}
+\\textbf{Skala ocjenjivanja:} 0-12 = nedovoljan (1), 13-15 = dovoljan (2), 16-18 = dobar (3), 19-22 = vrlo dobar (4), 23-25 = odličan (5)
 \\end{successbox}
+
+\\vspace{0.3cm}
+
 \\section{Evaluacija i procjena uspješnosti}
+
 \\begin{minipage}[t]{0.48\\textwidth}
 \\begin{infobox}[\\faChartLine\\ KRITERIJI USPJEŠNOSTI]
-\\footnotesize\\begin{itemize}[nosep,leftmargin=*]
-    \\item 80\\% učenika zna dva elementa I\\textsuperscript{2}L ćelije
-    \\item Učenici znaju funkciju PNP injektora
-    \\item Znaju da je osnovna ćelija INVERTOR
-    \\item Znaju $V_{OH}$ i $V_{OL}$
-    \\item 70\\% postiže pozitivnu ocjenu na listiću
-\\end{itemize}\\end{infobox}
-\\end{minipage}\\hfill
+\\footnotesize
+Čas je uspješan ako:
+\\begin{itemize}[nosep, leftmargin=*]
+    \\item 80\\% učenika zna navesti dva elementa I\\textsuperscript{2}L ćelije
+    \\item Učenici mogu objasniti funkciju PNP injektora
+    \\item Učenici znaju da je osnovna ćelija INVERTOR
+    \\item Učenici znaju naponske nivoe ($V_{OH}$, $V_{OL}$)
+    \\item Učenici mogu navesti 2+ prednosti i 2+ nedostatka
+    \\item 70\\% učenika postigne pozitivnu ocjenu na radnom listiću
+\\end{itemize}
+\\end{infobox}
+\\end{minipage}
+\\hfill
 \\begin{minipage}[t]{0.48\\textwidth}
 \\begin{alertbox}[\\faExclamationTriangle\\ MOGUĆE POTEŠKOĆE]
 \\footnotesize
-\\begin{tabularx}{\\linewidth}{|>{\\raggedright\\arraybackslash}X|>{\\raggedright\\arraybackslash}X|}\\hline
-\\textbf{Poteškoća} & \\textbf{Rješenje} \\\\\\hline
-Pojam ,,injekcija'' & Analogija: pumpa za vodu \\\\\\hline
-PNP vs NPN & PNP=struja, NPN=logika \\\\\\hline
-Mali $V_{swing}$ & Usporediti s TTL \\\\\\hline
-Wired-AND & Crtež spajanja \\\\\\hline
+\\begin{tabularx}{\\linewidth}{|>{\\raggedright\\arraybackslash}X|>{\\raggedright\\arraybackslash}X|}
+\\hline
+\\textbf{Poteškoća} & \\textbf{Rješenje} \\\\
+\\hline
+Nerazumijevanje ,,injekcije'' & Analogija: pumpa ubrizgava vodu \\\\
+\\hline
+PNP vs NPN uloge & Naglasiti: PNP=struja, NPN=logika \\\\
+\\hline
+Mali $V_{swing}$ & Usporediti s TTL (3.5V) \\\\
+\\hline
+Wired-AND koncept & Crtež spajanja kolektora \\\\
+\\hline
 \\end{tabularx}
 \\end{alertbox}
 \\end{minipage}
+
 \\vspace{0.4cm}
+
 \\begin{infobox}[\\faStickyNote\\ NAPOMENE ZA NASTAVNIKA]
-\\footnotesize\\begin{itemize}[nosep,leftmargin=*]
-    \\item Povezati sa gradivom o TTL logici i bipolarnim tranzistorima
+\\footnotesize
+\\begin{itemize}[nosep, leftmargin=*]
+    \\item Povezati sa prethodnim gradivom o TTL logici i bipolarnim tranzistorima
     \\item Naglasiti historijski značaj I\\textsuperscript{2}L kao prijelazne tehnologije (TTL $\\rightarrow$ CMOS)
-    \\item Koristiti boje: narandžasta za PNP, plava za NPN na crtežima
+    \\item Koristiti boje: narandžasta za PNP, plava za NPN
+    \\item Ako je moguće, pokazati fotografije I\\textsuperscript{2}L čipova iz 1970-ih
     \\item Napomenuti da se I\\textsuperscript{2}L danas rijetko koristi, ali principi su važni
-    \\item Za naprednije učenike: BiCMOS kao moderna kombinacija bipolarnih i CMOS tranzistora
-\\end{itemize}\\end{infobox}
+    \\item Za naprednije učenike: spomenuti BiCMOS kao modernu kombinaciju
+\\end{itemize}
+\\end{infobox}
+
 \\vspace{0.4cm}
-\\begin{tcolorbox}[colback=primaryblue!10,colframe=primaryblue!50,boxrule=0.8pt,arc=4pt,left=6pt,right=6pt,top=8pt,bottom=8pt]
+
+\\begin{tcolorbox}[colback=primaryblue!10, colframe=primaryblue!50, boxrule=0.8pt, arc=4pt, left=6pt, right=6pt, top=8pt, bottom=8pt]
 \\textbf{BILJEŠKE NAKON ČASA}\\\\[0.45cm]
 \\dotfill\\\\[0.4cm]\\dotfill\\\\[0.4cm]\\dotfill
 \\end{tcolorbox}
-\\vspace{0.4cm}
-\\begin{flushright}\\textbf{Potpis nastavnika:} \\underline{\\hspace{4.5cm}}\\end{flushright}
+
+\\vspace{0.3cm}
+
+\\begin{flushright}
+    \\textbf{Potpis nastavnika:} \\underline{\\hspace{4.5cm}}
+\\end{flushright}
+
 \\end{document}`;
 
 // ===== GENERATE + AUTO COMPILE =====
@@ -901,13 +1278,15 @@ async function generatePriprema() {
 Dobijas kompletan LaTeX dokument kao referencu. Vraćaš IDENTIČNO strukturiran dokument za novi predmet i temu.
 
 PRAVILA (SVA MORAJU BITI ISPUNJENA):
-1. Zadrži IDENTIČNU LaTeX strukturu: tcolorbox, tikzpicture, tabular, minipage, enumerate, itemize, adjustbox
-2. Za tabele koje zauzimaju punu širinu stranice (IDENTIFIKACIJSKI PODACI, NASTAVNE METODE) OBAVEZNO koristi \\begin{tabularx}{\\linewidth}{...} sa X kolonom za rastezljivu kolonu
-3. Za tabele u artikulaciji (aktivnost nastavnika/učenika) koristi \\noindent\\adjustbox{max width=\\linewidth}{% \\begin{tabular}{|L{7.5cm}|L{7.5cm}|} ... }
-4. Plan ploče tikzpicture mora biti omotan u: \\adjustbox{max width=\\linewidth}{% ... }
-5. Zadrži iste boje: primaryblue, secondaryblue, accentorange, accentgreen, goldcolor, lightgray
-6. Tabele za poteškoće i usporedbe: koristi tabularx sa X kolonama
-7. NIKAD ne koristi fiksne cm dimenzije koje zajedno prelaze 15.4cm (širina teksta A4 sa marginama 1.8cm)
+1. Zadrži IDENTIČNU LaTeX strukturu kao referentni dokument: tcolorbox, tikzpicture, tabular, minipage, enumerate, itemize, adjustbox
+2. Tabela IDENTIFIKACIJSKI PODACI: \\noindent\\adjustbox{max width=\\linewidth}{% \\begin{tabular}{|>{\\columncolor{...}}L{3.8cm}|L{5cm}|...|}
+3. Tabela NASTAVNE METODE: \\begin{tabularx}{\\linewidth}{|>{\\columncolor{secondaryblue!10}\\raggedright\\arraybackslash}p{3.5cm}|>{\\raggedright\\arraybackslash}X|}
+4. Tabele artikulacije (nastavnik/učenik): \\noindent\\adjustbox{max width=\\linewidth}{% \\begin{tabular}{|L{7.5cm}|L{7.5cm}|}
+5. Tabela MOGUĆE POTEŠKOĆE: \\begin{tabularx}{\\linewidth}{|>{\\raggedright\\arraybackslash}X|>{\\raggedright\\arraybackslash}X|}
+6. Plan ploče tikzpicture: \\noindent\\adjustbox{max width=\\linewidth}{% \\begin{tikzpicture}[scale=0.82] ... }
+7. Zadrži iste boje: primaryblue, secondaryblue, accentorange, accentgreen, goldcolor, lightgray
+8. NIKAD ne koristi fiksne cm dimenzije koje zajedno prelaze 15.4cm
+9. Tabela rješenja u successbox: \\begin{tabular}{|l|l|l|}... sa adjustbox ako treba
 6. Zadrži iste fontawesome ikone: faGraduationCap, faHeart, faCogs, faClock, faChartLine, faExclamationTriangle, faStickyNote, faMicrochip, faCheckCircle
 7. Vremenski raspored IDENTIČAN: 5+12+12+8+8 minuta
 8. Radni listić: 9 pitanja, 25 bodova ukupno, ista skala ocjenjivanja
