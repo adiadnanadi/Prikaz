@@ -7,121 +7,234 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Mono:wght@400;500&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 <style>
-:root{--ink:#0f0f14;--paper:#f5f0e8;--cream:#ede7d5;--blue:#003a70;--blue-mid:#0057a8;--gold:#c8921a;--gold-light:#f1c94e;--red:#b03030;--green:#1a6b3a;--border:#c5b99a;--shadow:rgba(15,15,20,0.15)}
+:root{
+  --ink:#0f0f14;--paper:#f5f0e8;--cream:#ede7d5;
+  --blue:#003a70;--blue-mid:#0057a8;--blue-light:#e8f0fa;
+  --gold:#c8921a;--gold-light:#f1c94e;
+  --red:#b03030;--green:#1a6b3a;
+  --border:#c5b99a;--shadow:rgba(15,15,20,0.15)
+}
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--ink);font-family:'Lora',Georgia,serif;min-height:100vh;position:relative;overflow-x:hidden}
-body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(ellipse at 20% 10%,rgba(0,58,112,.3) 0%,transparent 50%),radial-gradient(ellipse at 80% 90%,rgba(200,146,26,.15) 0%,transparent 50%);pointer-events:none;z-index:0}
-.page-wrap{position:relative;z-index:1;max-width:980px;margin:0 auto;padding:40px 24px 80px}
-header{text-align:center;padding:48px 0 40px;position:relative}
-header::after{content:'';display:block;width:120px;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:28px auto 0}
-.header-eyebrow{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:4px;color:var(--gold);text-transform:uppercase;margin-bottom:18px;opacity:.9}
-header h1{font-family:'Playfair Display',serif;font-size:clamp(2.4rem,5vw,3.8rem);font-weight:900;color:var(--paper);line-height:1.1;letter-spacing:-.02em}
+body{background:var(--ink);font-family:'Lora',Georgia,serif;min-height:100vh;overflow-x:hidden;position:relative}
+
+/* Animated background particles */
+body::before{content:'';position:fixed;inset:0;
+  background:radial-gradient(ellipse at 15% 15%,rgba(0,58,112,.4) 0%,transparent 55%),
+             radial-gradient(ellipse at 85% 85%,rgba(200,146,26,.2) 0%,transparent 55%),
+             radial-gradient(ellipse at 50% 50%,rgba(0,87,168,.1) 0%,transparent 70%);
+  pointer-events:none;z-index:0;animation:bgpulse 8s ease-in-out infinite alternate}
+@keyframes bgpulse{0%{opacity:.7}100%{opacity:1}}
+
+.page-wrap{position:relative;z-index:1;max-width:1000px;margin:0 auto;padding:40px 24px 80px}
+
+/* ===== FLOATING PARTICLES ===== */
+.particles{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.particle{position:absolute;border-radius:50%;opacity:0;animation:floatup linear infinite}
+@keyframes floatup{
+  0%{transform:translateY(100vh) scale(0);opacity:0}
+  10%{opacity:.6}
+  90%{opacity:.2}
+  100%{transform:translateY(-20px) scale(1);opacity:0}
+}
+
+/* ===== HEADER ===== */
+header{text-align:center;padding:56px 0 48px;position:relative}
+header::after{content:'';display:block;width:160px;height:2px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+  margin:32px auto 0;animation:lineexpand 1.2s ease forwards}
+@keyframes lineexpand{from{width:0;opacity:0}to{width:160px;opacity:1}}
+
+.header-eyebrow{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:5px;
+  color:var(--gold);text-transform:uppercase;margin-bottom:20px;
+  animation:fadein .8s ease forwards;opacity:0;animation-delay:.2s}
+header h1{font-family:'Playfair Display',serif;font-size:clamp(2.6rem,5vw,4.2rem);
+  font-weight:900;color:var(--paper);line-height:1.1;letter-spacing:-.02em;
+  animation:slidein .9s ease forwards;opacity:0;animation-delay:.4s}
 header h1 span{color:var(--gold-light)}
-.header-sub{font-family:'Lora',serif;font-style:italic;font-size:1rem;color:rgba(245,240,232,.55);margin-top:14px}
-.card{background:var(--paper);border-radius:4px;box-shadow:0 4px 40px var(--shadow),inset 0 1px 0 rgba(255,255,255,.8);position:relative;overflow:hidden}
-.card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--blue),var(--blue-mid),var(--gold))}
-.card-inner{padding:36px 40px 40px}
-.api-section{margin-bottom:32px;padding-bottom:32px;border-bottom:1px solid var(--border)}
-.section-label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--blue);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.header-sub{font-family:'Lora',serif;font-style:italic;font-size:1rem;
+  color:rgba(245,240,232,.5);margin-top:16px;
+  animation:fadein .8s ease forwards;opacity:0;animation-delay:.7s}
+@keyframes fadein{to{opacity:1}}
+@keyframes slidein{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+/* ===== CARD ===== */
+.card{background:var(--paper);border-radius:6px;
+  box-shadow:0 8px 60px var(--shadow),inset 0 1px 0 rgba(255,255,255,.9);
+  position:relative;overflow:hidden;
+  animation:cardrise .8s ease forwards;opacity:0;animation-delay:.9s}
+@keyframes cardrise{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:5px;
+  background:linear-gradient(90deg,var(--blue),var(--blue-mid),var(--gold),var(--gold-light),var(--gold));
+  background-size:200% 100%;animation:shimmer 3s linear infinite}
+@keyframes shimmer{0%{background-position:0% 0}100%{background-position:200% 0}}
+.card-inner{padding:40px 44px 44px}
+
+.api-section{margin-bottom:36px;padding-bottom:36px;border-bottom:1.5px solid var(--border)}
+.section-label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:3px;
+  text-transform:uppercase;color:var(--blue);margin-bottom:12px;
+  display:flex;align-items:center;gap:10px}
 .section-label::after{content:'';flex:1;height:1px;background:var(--border)}
-.field-group{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px}
+
+.field-group{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-bottom:22px}
 .field-group.triple{grid-template-columns:1fr 1fr 1fr}
 .field-group.full{grid-template-columns:1fr}
-.field{display:flex;flex-direction:column;gap:7px}
+.field{display:flex;flex-direction:column;gap:8px}
 label{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:1px;color:var(--blue);font-weight:500}
-input,textarea,select{font-family:'Lora',serif;font-size:14px;padding:11px 14px;border:1.5px solid var(--border);background:var(--cream);border-radius:3px;color:var(--ink);transition:border-color .2s,box-shadow .2s,background .2s;outline:none;width:100%}
-input:focus,textarea:focus,select:focus{border-color:var(--blue-mid);background:#fff;box-shadow:0 0 0 3px rgba(0,87,168,.1)}
+input,textarea,select{font-family:'Lora',serif;font-size:14px;padding:12px 15px;
+  border:1.5px solid var(--border);background:var(--cream);border-radius:4px;
+  color:var(--ink);transition:all .2s;outline:none;width:100%}
+input:focus,textarea:focus,select:focus{border-color:var(--blue-mid);background:#fff;
+  box-shadow:0 0 0 3px rgba(0,87,168,.1)}
 input::placeholder,textarea::placeholder{color:rgba(15,15,20,.3);font-style:italic}
 textarea{resize:vertical;min-height:110px;line-height:1.6}
-.api-hint{font-family:'DM Mono',monospace;font-size:10px;color:rgba(15,15,20,.45);margin-top:5px}
+.api-hint{font-family:'DM Mono',monospace;font-size:10px;color:rgba(15,15,20,.4);margin-top:5px}
 .api-hint a{color:var(--blue-mid)}
-.btn{font-family:'Playfair Display',serif;font-size:16px;font-weight:700;letter-spacing:.5px;cursor:pointer;border:none;border-radius:3px;transition:all .22s;padding:14px 28px;display:inline-flex;align-items:center;gap:10px;position:relative}
-.btn-primary{background:var(--blue);color:var(--paper);width:100%;justify-content:center;margin-top:8px;box-shadow:0 2px 12px rgba(0,58,112,.35)}
-.btn-primary:hover:not(:disabled){background:var(--blue-mid);box-shadow:0 4px 20px rgba(0,87,168,.45);transform:translateY(-1px)}
-.btn-primary:disabled{opacity:.55;cursor:not-allowed}
-.btn-gold{background:var(--gold);color:#fff;font-size:15px;padding:12px 22px;box-shadow:0 2px 10px rgba(200,146,26,.3)}
-.btn-gold:hover{background:#b5820f;transform:translateY(-1px)}
-.btn-outline{background:transparent;color:var(--blue);border:1.5px solid var(--blue);font-size:13px;padding:10px 18px}
-.btn-outline:hover{background:var(--blue);color:var(--paper)}
-.btn-green{background:var(--green);color:#fff;font-size:15px;padding:12px 22px}
-.btn-green:hover{background:#145530;transform:translateY(-1px)}
-.spinner{width:18px;height:18px;border:2.5px solid rgba(245,240,232,.3);border-top-color:var(--paper);border-radius:50%;animation:spin .7s linear infinite;display:none}
-.spinner-large{width:64px;height:64px;border:6px solid var(--blue);border-top:6px solid var(--gold);border-radius:50%;animation:spin 1.1s linear infinite;margin:0 auto 24px}
+
+.info-banner{background:rgba(200,146,26,.1);border:1px solid rgba(200,146,26,.3);
+  border-radius:4px;padding:13px 17px;margin-bottom:22px;
+  font-family:'DM Mono',monospace;font-size:10.5px;color:#7a5008;line-height:1.75}
+.info-banner strong{color:#6a4006}
+
+/* ===== BUTTON ===== */
+.btn-generate{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;
+  letter-spacing:.5px;cursor:pointer;border:none;border-radius:4px;
+  background:var(--blue);color:var(--paper);width:100%;
+  padding:18px 28px;margin-top:10px;
+  display:flex;align-items:center;justify-content:center;gap:12px;
+  box-shadow:0 4px 20px rgba(0,58,112,.4);
+  transition:all .25s;position:relative;overflow:hidden}
+.btn-generate::before{content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,transparent 30%,rgba(255,255,255,.08) 50%,transparent 70%);
+  transform:translateX(-100%);transition:transform .5s}
+.btn-generate:hover::before{transform:translateX(100%)}
+.btn-generate:hover:not(:disabled){background:var(--blue-mid);transform:translateY(-2px);
+  box-shadow:0 8px 30px rgba(0,87,168,.5)}
+.btn-generate:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.btn-text{transition:all .2s}
+.spinner{width:20px;height:20px;border:2.5px solid rgba(245,240,232,.3);
+  border-top-color:var(--paper);border-radius:50%;
+  animation:spin .6s linear infinite;display:none;flex-shrink:0}
 @keyframes spin{to{transform:rotate(360deg)}}
-.status-bar{padding:12px 16px;border-radius:3px;font-family:'DM Mono',monospace;font-size:12px;margin-top:18px;display:none;gap:10px;align-items:center}
+
+/* ===== STATUS ===== */
+.status-bar{padding:13px 17px;border-radius:4px;font-family:'DM Mono',monospace;
+  font-size:12px;margin-top:20px;display:none;gap:10px;align-items:center}
 .status-bar.info{background:rgba(0,87,168,.1);color:var(--blue);border:1px solid rgba(0,87,168,.2);display:flex}
 .status-bar.success{background:rgba(26,107,58,.1);color:var(--green);border:1px solid rgba(26,107,58,.2);display:flex}
 .status-bar.error{background:rgba(176,48,48,.1);color:var(--red);border:1px solid rgba(176,48,48,.2);display:flex}
-.status-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.status-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
 .info .status-dot{background:var(--blue-mid);animation:pulse 1.2s ease infinite}
 .success .status-dot{background:var(--green)}
 .error .status-dot{background:var(--red)}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
-.result-section{margin-top:36px;display:none}
-.result-section.visible{display:block}
-.result-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:12px}
-.result-title{font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--paper);font-weight:700}
-.result-actions{display:flex;gap:10px;flex-wrap:wrap}
-.latex-editor{background:#1a1a2e;border-radius:4px;border:1px solid rgba(245,240,232,.1);overflow:hidden}
-.editor-topbar{background:#12121f;padding:10px 16px;display:flex;align-items:center;gap:8px;border-bottom:1px solid rgba(255,255,255,.06)}
-.editor-dot{width:10px;height:10px;border-radius:50%}
-.editor-filename{font-family:'DM Mono',monospace;font-size:11px;color:rgba(255,255,255,.4);margin-left:8px}
-#latexOutput{display:block;width:100%;min-height:380px;background:transparent;color:#c8d3f5;font-family:'DM Mono',monospace;font-size:12.5px;line-height:1.65;padding:20px;border:none;outline:none;resize:vertical;white-space:pre;overflow-x:auto}
-.compile-section{margin-top:28px;background:var(--paper);border-radius:4px;overflow:hidden;border:1.5px solid var(--border);display:none}
-.compile-section.visible{display:block}
-.compile-header{background:var(--cream);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);flex-wrap:wrap;gap:10px}
-.compile-title{font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--blue);font-weight:700}
-.compile-body{padding:20px}
-.compile-options{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px}
-.pdf-frame-wrap{width:100%;background:#525659;border-radius:3px;overflow:hidden;display:none}
-.pdf-frame-wrap.visible{display:block}
-#pdfFrame{width:100%;height:700px;border:none;display:block}
-.compile-note{font-family:'DM Mono',monospace;font-size:10.5px;color:rgba(15,15,20,.45);margin-top:10px;line-height:1.6}
-.ornament{text-align:center;color:rgba(200,146,26,.35);font-size:22px;letter-spacing:8px;margin:32px 0 24px;user-select:none}
-.info-banner{background:rgba(200,146,26,.12);border:1px solid rgba(200,146,26,.35);border-radius:3px;padding:12px 16px;margin-bottom:20px;font-family:'DM Mono',monospace;font-size:11px;color:#8a6010;line-height:1.7}
-.info-banner strong{color:#7a5008}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.3;transform:scale(.7)}}
 
-/* Loading overlay */
-.loading-overlay{position:fixed;inset:0;background:rgba(15,15,20,0.92);z-index:9999;display:none;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
-.loading-content{text-align:center;color:var(--paper);padding:40px;border-radius:12px;background:rgba(0,58,112,0.25);border:1px solid var(--blue-mid);max-width:420px}
-.motto{font-family:'Playfair Display',serif;font-size:1.6rem;margin:16px 0 8px;color:var(--gold-light)}
-.dots::after{content:'.';animation:dots 1.8s steps(4,end) infinite}
-@keyframes dots{0%,20%{content:'.'}40%{content:'..'}60%{content:'...'}80%,100%{content:''}}
-.subtext{font-size:0.95rem;opacity:0.8;margin-top:12px}
+/* ===== LOADING OVERLAY ===== */
+.loading-overlay{position:fixed;inset:0;background:rgba(15,15,20,.92);
+  z-index:100;display:none;flex-direction:column;align-items:center;justify-content:center;
+  backdrop-filter:blur(8px)}
+.loading-overlay.active{display:flex}
 
-/* Scrollbar */
-::-webkit-scrollbar{width:6px;height:6px}
-::-webkit-scrollbar-track{background:rgba(255,255,255,.04)}
-::-webkit-scrollbar-thumb{background:rgba(200,146,26,.35);border-radius:3px}
-@media(max-width:640px){.card-inner{padding:24px 20px}.field-group,.field-group.triple{grid-template-columns:1fr}}
+.loading-orb{width:120px;height:120px;position:relative;margin-bottom:40px}
+.orb-ring{position:absolute;inset:0;border-radius:50%;border:3px solid transparent;animation:orbitring 2s linear infinite}
+.orb-ring:nth-child(1){border-top-color:var(--gold-light);animation-duration:1.5s}
+.orb-ring:nth-child(2){inset:10px;border-right-color:var(--blue-mid);animation-duration:2s;animation-direction:reverse}
+.orb-ring:nth-child(3){inset:22px;border-bottom-color:var(--gold);animation-duration:2.5s}
+@keyframes orbitring{to{transform:rotate(360deg)}}
+.orb-center{position:absolute;inset:36px;background:radial-gradient(circle,var(--gold-light),var(--gold));
+  border-radius:50%;animation:orbpulse 1.5s ease-in-out infinite}
+@keyframes orbpulse{0%,100%{transform:scale(.9);opacity:.8}50%{transform:scale(1.1);opacity:1}}
+
+.loading-title{font-family:'Playfair Display',serif;font-size:1.6rem;color:var(--paper);
+  font-weight:700;margin-bottom:12px;text-align:center}
+.loading-step{font-family:'DM Mono',monospace;font-size:12px;color:var(--gold);
+  text-align:center;letter-spacing:2px;min-height:20px;transition:all .4s}
+.loading-progress{width:280px;height:3px;background:rgba(255,255,255,.1);
+  border-radius:2px;margin-top:24px;overflow:hidden}
+.loading-bar{height:100%;background:linear-gradient(90deg,var(--blue-mid),var(--gold));
+  border-radius:2px;width:0%;transition:width .6s ease;animation:progressanim 0s linear forwards}
+
+.loading-facts{margin-top:32px;max-width:340px;text-align:center}
+.fact-card{background:rgba(255,255,255,.06);border:1px solid rgba(200,146,26,.2);
+  border-radius:6px;padding:16px 20px;font-family:'Lora',serif;font-style:italic;
+  font-size:13px;color:rgba(245,240,232,.7);line-height:1.6;
+  animation:factfade 4s ease-in-out infinite}
+@keyframes factfade{0%,100%{opacity:.4}50%{opacity:1}}
+
+/* ===== PDF SECTION ===== */
+.pdf-section{margin-top:40px;display:none}
+.pdf-section.visible{display:block;animation:cardrise .6s ease forwards}
+.pdf-header{display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:16px;flex-wrap:wrap;gap:12px}
+.pdf-title{font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--paper);font-weight:700}
+.pdf-actions{display:flex;gap:10px;flex-wrap:wrap}
+
+.btn-dl{font-family:'DM Mono',monospace;font-size:12px;font-weight:500;
+  letter-spacing:1px;cursor:pointer;border:1.5px solid;border-radius:3px;
+  padding:10px 18px;display:inline-flex;align-items:center;gap:8px;
+  transition:all .2s;text-decoration:none}
+.btn-dl-green{background:var(--green);color:#fff;border-color:var(--green)}
+.btn-dl-green:hover{background:#145530;transform:translateY(-1px)}
+.btn-dl-outline{background:transparent;color:var(--paper);border-color:rgba(245,240,232,.3)}
+.btn-dl-outline:hover{background:rgba(255,255,255,.08)}
+
+.pdf-wrap{background:#404040;border-radius:6px;overflow:hidden;
+  box-shadow:0 8px 40px rgba(0,0,0,.5)}
+.pdf-topbar{background:#2d2d2d;padding:10px 16px;display:flex;align-items:center;gap:8px}
+.pdf-dot{width:11px;height:11px;border-radius:50%}
+.pdf-filename{font-family:'DM Mono',monospace;font-size:11px;color:rgba(255,255,255,.35);margin-left:8px}
+#pdfFrame{width:100%;height:760px;border:none;display:block;background:#525659}
+
+.ornament{text-align:center;color:rgba(200,146,26,.3);font-size:24px;
+  letter-spacing:10px;margin:36px 0 28px;user-select:none;
+  animation:ornamentpulse 3s ease-in-out infinite}
+@keyframes ornamentpulse{0%,100%{opacity:.3}50%{opacity:.7}}
+
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:rgba(255,255,255,.03)}
+::-webkit-scrollbar-thumb{background:rgba(200,146,26,.3);border-radius:3px}
+@media(max-width:640px){
+  .card-inner{padding:24px 20px}
+  .field-group,.field-group.triple{grid-template-columns:1fr}
+}
 </style>
 </head>
 <body>
 
-<div id="loadingOverlay" class="loading-overlay">
-  <div class="loading-content">
-    <div class="spinner-large"></div>
-    <h2>Generišemo pripremu...</h2>
-    <p class="motto">Obrazovanje nema cijenu<span class="dots"></span></p>
-    <p class="subtext">Molimo pričekajte 20–50 sekundi</p>
+<!-- Floating particles -->
+<div class="particles" id="particles"></div>
+
+<!-- Loading Overlay -->
+<div class="loading-overlay" id="loadingOverlay">
+  <div class="loading-orb">
+    <div class="orb-ring"></div>
+    <div class="orb-ring"></div>
+    <div class="orb-ring"></div>
+    <div class="orb-center"></div>
+  </div>
+  <div class="loading-title">Generisanje priprema</div>
+  <div class="loading-step" id="loadingStep">Inicijalizacija...</div>
+  <div class="loading-progress">
+    <div class="loading-bar" id="loadingBar"></div>
+  </div>
+  <div class="loading-facts">
+    <div class="fact-card" id="factCard">💡 Svaka dobra priprema štedi nastavniku sat vremena planiranja.</div>
   </div>
 </div>
 
 <div class="page-wrap">
   <header>
-    <div class="header-eyebrow">⸻ Elektrotehnička škola Tuzla ⸻</div>
-    <h1>Generator<br><span>Nastavnih Priprema</span></h1>
-    <p class="header-sub">Unesite podatke — AI generiše kompletnu pripremu u LaTeX-u</p>
+    <div class="header-eyebrow">⸻ Generator Nastavnih Priprema ⸻</div>
+    <h1>Priprema za<br><span>Nastavni Čas</span></h1>
+    <p class="header-sub">Unesite podatke — AI generiše i kompajlira kompletnu pripremu</p>
   </header>
 
   <div class="card">
     <div class="card-inner">
+
       <div class="api-section">
-        <div class="section-label">Groq API Ključ</div>
+        <div class="section-label">Mistral AI Ključ</div>
         <div class="info-banner">
-          ⓘ Ovaj fajl mora biti otvoren kroz <strong>lokalni HTTP server</strong>, ne direktno iz Explorera.<br>
-          Najlakše: <code>python -m http.server 8080</code> → http://localhost:8080<br>
-          Ili VS Code → Live Server
+          ⓘ Otvorite ovaj fajl kroz lokalni server: <strong>python -m http.server 8080</strong> → <strong>http://localhost:8080</strong>
         </div>
         <div class="field">
           <label>API KEY (Mistral)</label>
@@ -131,7 +244,7 @@ textarea{resize:vertical;min-height:110px;line-height:1.6}
       </div>
 
       <div class="section-label">Škola i nastavnik</div>
-      <div class="field-group" style="margin-bottom:20px">
+      <div class="field-group" style="margin-bottom:22px">
         <div class="field">
           <label>Škola</label>
           <input type="text" id="skola" value="Elektrotehnička škola Tuzla">
@@ -143,10 +256,10 @@ textarea{resize:vertical;min-height:110px;line-height:1.6}
       </div>
 
       <div class="section-label">Podaci o nastavnom času</div>
-      <div class="field-group" style="margin-bottom:20px">
+      <div class="field-group" style="margin-bottom:22px">
         <div class="field">
           <label>Predmet</label>
-          <input type="text" id="predmet" placeholder="npr. Matematika, Fizika, Hemija...">
+          <input type="text" id="predmet" placeholder="npr. Elektronika, Fizika, Matematika...">
         </div>
         <div class="field">
           <label>Nastavna jedinica (tema)</label>
@@ -154,7 +267,7 @@ textarea{resize:vertical;min-height:110px;line-height:1.6}
         </div>
       </div>
 
-      <div class="field-group triple" style="margin-bottom:20px">
+      <div class="field-group triple" style="margin-bottom:22px">
         <div class="field">
           <label>Razred</label>
           <input type="text" id="razred" placeholder="npr. Treći (III)">
@@ -176,15 +289,15 @@ textarea{resize:vertical;min-height:110px;line-height:1.6}
       </div>
 
       <div class="section-label">Dodatne napomene (opciono)</div>
-      <div class="field-group full" style="margin-bottom:28px">
+      <div class="field-group full" style="margin-bottom:30px">
         <div class="field">
           <label>Napomene / korelacija / resursi</label>
           <textarea id="napomene" placeholder="npr. Korelacija sa Osnovama elektrotehnike..."></textarea>
         </div>
       </div>
 
-      <button class="btn btn-primary" id="generateBtn" onclick="generatePriprema()">
-        <span id="btnText">✦ Generiši Pripremu</span>
+      <button class="btn-generate" id="generateBtn" onclick="generatePriprema()">
+        <span class="btn-text" id="btnText">✦ Generiši i Kompajliraj Pripremu</span>
         <div class="spinner" id="btnSpinner"></div>
       </button>
 
@@ -195,57 +308,123 @@ textarea{resize:vertical;min-height:110px;line-height:1.6}
     </div>
   </div>
 
-  <div class="result-section" id="resultSection">
+  <div class="pdf-section" id="pdfSection">
     <div class="ornament">✦ ✦ ✦</div>
-    <div class="result-header">
-      <div class="result-title">Generisana priprema</div>
-      <div class="result-actions">
-        <button class="btn btn-outline" onclick="copyLatex()">⎘ Kopiraj LaTeX</button>
-        <button class="btn btn-outline" onclick="downloadLatex()">↓ Skini .tex</button>
-        <button class="btn btn-outline" onclick="toggleLatexEditor()">Prikaži / Sakrij kod</button>
+    <div class="pdf-header">
+      <div class="pdf-title">Nastavna Priprema — PDF</div>
+      <div class="pdf-actions">
+        <a class="btn-dl btn-dl-outline" id="downloadTex" href="#" download="priprema.tex">↓ Skini .tex</a>
+        <a class="btn-dl btn-dl-green" id="downloadPdfBtn" href="#" download="priprema.pdf">⬇ Skini PDF</a>
       </div>
     </div>
-
-    <div id="latexEditorContainer" style="display:none; margin-top:24px">
-      <div class="latex-editor">
-        <div class="editor-topbar">
-          <div class="editor-dot" style="background:#ff5f57"></div>
-          <div class="editor-dot" style="background:#febc2e"></div>
-          <div class="editor-dot" style="background:#28c840"></div>
-          <span class="editor-filename">priprema_nastavni_cas.tex</span>
-        </div>
-        <textarea id="latexOutput" spellcheck="false"></textarea>
+    <div class="pdf-wrap">
+      <div class="pdf-topbar">
+        <div class="pdf-dot" style="background:#ff5f57"></div>
+        <div class="pdf-dot" style="background:#febc2e"></div>
+        <div class="pdf-dot" style="background:#28c840"></div>
+        <span class="pdf-filename" id="pdfFilename">priprema_nastavni_cas.pdf</span>
       </div>
-    </div>
-  </div>
-
-  <div class="compile-section" id="compileSection">
-    <div class="compile-header">
-      <div class="compile-title">📄 PDF pregled</div>
-      <div style="display:flex;gap:10px;flex-wrap:wrap">
-        <button class="btn btn-green" onclick="compileTexlive()">▶ Ponovo kompajliraj</button>
-        <button class="btn btn-gold" onclick="compileWithOverleaf()">⚡ Otvori u Overleaf</button>
-      </div>
-    </div>
-    <div class="compile-body">
-      <div class="status-bar" id="compileStatus">
-        <div class="status-dot"></div>
-        <span id="compileStatusText"></span>
-      </div>
-      <div class="pdf-frame-wrap" id="pdfFrameWrap">
-        <iframe id="pdfFrame" title="PDF Preview"></iframe>
-      </div>
-      <p class="compile-note">
-        ⓘ PDF se automatski generiše nakon kreiranja pripreme.<br>
-        Ako ne radi inline prikaz — probaj <strong>Otvori u Overleaf</strong>.
-      </p>
+      <iframe id="pdfFrame" title="PDF Preview"></iframe>
     </div>
   </div>
 </div>
 
 <script>
-// ──────────────────────────────────────────────────────────────────────────────
-// ORIGINAL TEMPLATE (koristi se kao primjer za AI)
+// ===== PARTICLES =====
+(function(){
+  const container = document.getElementById('particles');
+  const colors = ['rgba(200,146,26,.4)','rgba(0,87,168,.3)','rgba(241,196,78,.3)','rgba(245,240,232,.15)'];
+  for(let i=0;i<25;i++){
+    const p = document.createElement('div');
+    p.className = 'particle';
+    const size = Math.random()*6+3;
+    p.style.cssText = `
+      width:${size}px;height:${size}px;
+      left:${Math.random()*100}%;
+      background:${colors[Math.floor(Math.random()*colors.length)]};
+      animation-duration:${Math.random()*15+8}s;
+      animation-delay:${Math.random()*10}s;
+    `;
+    container.appendChild(p);
+  }
+})();
+
+// ===== LOADING FACTS =====
+const FACTS = [
+  '💡 Svaka dobra priprema štedi nastavniku sat planiranja.',
+  '📚 Jasni ciljevi časa povećavaju uspjeh učenika za 30%.',
+  '✏️ Artikulacija časa pomaže nastavniku da ostane u vremenskom okviru.',
+  '🎯 Radni listić kao povratna informacija odmah pokazuje razumijevanje.',
+  '🔬 Plan ploče vizualno strukturira ključne pojmove za učenike.',
+  '⏱️ 45 minuta: 5 uvod + 32 obrada + 8 završni — zlatni omjer.',
+  '🏫 Korelacija predmeta dublje učvršćuje naučeno gradivo.',
+  '📝 Pisana priprema štiti nastavnika i poboljšava kvalitet nastave.',
+];
+let factIdx = 0;
+function rotateFact(){
+  const el = document.getElementById('factCard');
+  el.style.opacity='0';
+  setTimeout(()=>{
+    factIdx=(factIdx+1)%FACTS.length;
+    el.textContent=FACTS[factIdx];
+    el.style.opacity='1';
+  },400);
+}
+setInterval(rotateFact,4000);
+
+// ===== LOADING STEPS =====
+const STEPS = [
+  [5,'Priprema podataka...'],
+  [15,'Slanje upita Mistral AI-ju...'],
+  [30,'AI generiše nastavnu pripremu...'],
+  [55,'Priprema LaTeX dokumenta...'],
+  [70,'Slanje na kompajler...'],
+  [85,'Kompajliranje PDF-a...'],
+  [95,'Učitavanje rezultata...'],
+];
+let stepTimer=null;
+function startLoadingSteps(){
+  let i=0;
+  function next(){
+    if(i>=STEPS.length)return;
+    const [pct,msg]=STEPS[i];
+    document.getElementById('loadingBar').style.width=pct+'%';
+    document.getElementById('loadingStep').textContent=msg;
+    i++;
+    stepTimer=setTimeout(next, i===1?500 : i===2?1000 : i===3?8000 : i===4?3000 : i===5?5000 : 3000);
+  }
+  next();
+}
+function setLoadingPct(pct,msg){
+  document.getElementById('loadingBar').style.width=pct+'%';
+  if(msg)document.getElementById('loadingStep').textContent=msg;
+}
+
+function showLoading(){
+  document.getElementById('loadingOverlay').classList.add('active');
+  startLoadingSteps();
+}
+function hideLoading(){
+  clearTimeout(stepTimer);
+  document.getElementById('loadingBar').style.width='100%';
+  document.getElementById('loadingStep').textContent='Gotovo!';
+  setTimeout(()=>document.getElementById('loadingOverlay').classList.remove('active'),600);
+}
+
+// ===== STATUS =====
+function showStatus(type,msg){
+  const bar=document.getElementById('statusBar');
+  bar.className='status-bar '+type;
+  document.getElementById('statusText').textContent=msg;
+}
+function setLoading(on){
+  const btn=document.getElementById('generateBtn');
+  btn.disabled=on;
+  document.getElementById('btnSpinner').style.display=on?'block':'none';
+  document.getElementById('btnText').textContent=on?'Generisanje...':'✦ Generiši i Kompajliraj Pripremu';
+}
+
+// ===== ORIGINAL DOC =====
 const ORIGINAL_DOC = `\\documentclass[a4paper,11pt]{article}
 \\usepackage[utf8]{inputenc}
 \\usepackage[T1]{fontenc}
@@ -267,6 +446,7 @@ const ORIGINAL_DOC = `\\documentclass[a4paper,11pt]{article}
 \\usepackage{titlesec}
 \\usepackage{hyperref}
 \\usepackage{amsmath}
+\\usepackage{adjustbox}
 \\tcbuselibrary{skins, breakable}
 \\usetikzlibrary{shapes.geometric, arrows.meta, positioning, calc}
 \\geometry{left=1.8cm,right=1.8cm,top=2cm,bottom=2cm}
@@ -305,12 +485,14 @@ const ORIGINAL_DOC = `\\documentclass[a4paper,11pt]{article}
 \\end{tikzpicture}
 \\vspace{4cm}
 \\begin{center}
-    {\\fontsize{12}{14}\\selectfont\\textcolor{darkgray}{ELEKTROTEHNIČKA ŠKOLA TUZLA}}\\vspace{2cm}
-    {\\fontsize{28}{34}\\selectfont\\textcolor{primaryblue}{\\textbf{PRIPREMA ZA NASTAVNI ČAS}}}\\vspace{1.2cm}
+    {\\fontsize{12}{14}\\selectfont\\textcolor{darkgray}{ELEKTROTEHNIČKA ŠKOLA TUZLA}}\\\\
+    \\vspace{2.5cm}
+    {\\fontsize{24}{28}\\selectfont\\textcolor{primaryblue}{\\textbf{PRIPREMA ZA NASTAVNI ČAS}}}\\\\
+    \\vspace{1.5cm}
     \\begin{tcolorbox}[colback=lightgray,colframe=primaryblue,width=12cm,center,boxrule=2pt,arc=4mm]
         \\centering
-        {\\Large\\textbf{Nastavna jedinica:}}\\\\[0.4cm]
-        {\\LARGE\\textcolor{primaryblue}{\\textbf{I\\textsuperscript{2}L -- Integrirana Injekcijska Logika}}}\\\\[0.3cm]
+        {\\Large\\textbf{Nastavna jedinica:}}\\\\[0.3cm]
+        {\\LARGE\\textcolor{primaryblue}{\\textbf{I\\textsuperscript{2}L -- Integrirana Injekcijska Logika}}}\\\\[0.2cm]
         {\\large\\textcolor{secondaryblue}{Integrated Injection Logic}}
     \\end{tcolorbox}
     \\vspace{2.5cm}
@@ -325,97 +507,421 @@ const ORIGINAL_DOC = `\\documentclass[a4paper,11pt]{article}
     \\node[white, anchor=south] at ([yshift=0.5cm]current page.south) {\\small Tuzla, \\today};
 \\end{tikzpicture}
 \\end{titlepage}
-% ... ostatak originalnog dokumenta (skraćeno radi preglednosti)
+\\section{Osnovni podaci o nastavnom času}
+\\noindent\\adjustbox{max width=\\linewidth}{%
+\\renewcommand{\\arraystretch}{1.4}
+\\small
+\\begin{tabular}{|>{\\columncolor{primaryblue!10}}L{3.8cm}|L{5cm}|>{\\columncolor{primaryblue!10}}L{3cm}|L{3.5cm}|}
+    \\hline
+    \\rowcolor{primaryblue}
+    \\multicolumn{4}{|c|}{\\textcolor{white}{\\textbf{IDENTIFIKACIJSKI PODACI}}} \\\\
+    \\hline
+    \\textbf{Predmet:} & Elektronika & \\textbf{Datum:} & \\today \\\\
+    \\hline
+    \\textbf{Nastavna jedinica:} & \\multicolumn{3}{l|}{I\\textsuperscript{2}L -- Integrirana Injekcijska Logika} \\\\
+    \\hline
+    \\textbf{Razred:} & Četvrti (IV) & \\textbf{Trajanje:} & 45 minuta \\\\
+    \\hline
+    \\textbf{Tip časa:} & Obrada novog gradiva & \\textbf{Broj učenika:} & 19 \\\\
+    \\hline
+\\end{tabular}}
+\\vspace{0.3cm}
+\\noindent\\adjustbox{max width=\\linewidth}{%
+\\renewcommand{\\arraystretch}{1.3}
+\\small
+\\begin{tabular}{|>{\\columncolor{secondaryblue!10}}L{3.5cm}|L{12.7cm}|}
+    \\hline
+    \\rowcolor{secondaryblue}
+    \\multicolumn{2}{|c|}{\\textcolor{white}{\\textbf{NASTAVNE METODE, OBLICI RADA I SREDSTVA}}} \\\\
+    \\hline
+    \\textbf{Metode:} & Usmeno izlaganje, demonstracija (prezentacija), razgovor, ilustrativna metoda \\\\
+    \\hline
+    \\textbf{Oblici rada:} & Frontalni rad, individualni rad (radni listić) \\\\
+    \\hline
+    \\textbf{Sredstva:} & Računar, projektor, prezentacija (22 slajda), tabla, radni listići \\\\
+    \\hline
+    \\textbf{Korelacija:} & Osnove digitalne elektronike, Digitalna integrirana kola, Osnove elektrotehnike \\\\
+    \\hline
+\\end{tabular}}
+\\section{Ciljevi nastavnog časa}
+\\begin{tcolorbox}[colback=primaryblue!5,colframe=primaryblue,title={\\faGraduationCap\\ OBRAZOVNI CILJEVI},fonttitle=\\bfseries]
+\\small Učenici će biti u stanju:
+\\begin{itemize}[nosep, leftmargin=*]
+    \\item \\textbf{Definirati} I\\textsuperscript{2}L tehnologiju i objasniti značenje skraćenice
+    \\item \\textbf{Nabrojati} i opisati dva osnovna elementa I\\textsuperscript{2}L ćelije (PNP injektor, NPN prekidač)
+    \\item \\textbf{Objasniti} princip rada I\\textsuperscript{2}L ćelije i ulogu injekcijske struje
+    \\item \\textbf{Nacrtati} osnovnu shemu I\\textsuperscript{2}L ćelije sa označenim komponentama
+    \\item \\textbf{Opisati} funkciju višestrukih kolektora i Wired-AND povezivanje
+    \\item \\textbf{Navesti} naponske nivoe: $V_{OH} \\approx 0.7$V, $V_{OL} \\approx 0.1$V
+    \\item \\textbf{Usporediti} I\\textsuperscript{2}L sa TTL i CMOS tehnologijom
+    \\item \\textbf{Nabrojati} prednosti i nedostatke I\\textsuperscript{2}L tehnologije
+\\end{itemize}
+\\end{tcolorbox}
+\\vspace{0.2cm}
+\\begin{minipage}[t]{0.48\\textwidth}
+\\begin{tcolorbox}[colback=accentgreen!10,colframe=accentgreen,title={\\faHeart\\ ODGOJNI CILJEVI},fonttitle=\\bfseries\\small]
+\\footnotesize
+\\begin{itemize}[nosep, leftmargin=*]
+    \\item Razvijanje interesa za historiju elektronike
+    \\item Razumijevanje evolucije tehnologije
+    \\item Kritičko razmišljanje o prednostima/nedostacima
+    \\item Poštivanje naučnih dostignuća
+    \\item Preciznost u tehničkom izražavanju
+\\end{itemize}
+\\end{tcolorbox}
+\\end{minipage}
+\\hfill
+\\begin{minipage}[t]{0.48\\textwidth}
+\\begin{tcolorbox}[colback=accentorange!10,colframe=accentorange,title={\\faCogs\\ FUNKCIONALNI CILJEVI},fonttitle=\\bfseries\\small]
+\\footnotesize
+\\begin{itemize}[nosep, leftmargin=*]
+    \\item Čitanje i crtanje elektroničkih shema
+    \\item Analiza rada bipolarnih tranzistora
+    \\item Razumijevanje logičkih funkcija
+    \\item Uspoređivanje tehničkih parametara
+    \\item Primjena znanja iz prethodnih lekcija
+\\end{itemize}
+\\end{tcolorbox}
+\\end{minipage}
+\\newpage
+\\section{Artikulacija nastavnog časa (45 minuta)}
+\\begin{alertbox}[\\faClock\\ VREMENSKI RASPORED]
+\\noindent\\adjustbox{max width=\\linewidth}{%
+\\small\\begin{tabular}{|c|l|c|}
+    \\hline
+    \\rowcolor{accentorange!30}
+    \\textbf{Faza} & \\textbf{Naziv} & \\textbf{Trajanje} \\\\
+    \\hline
+    1 & Uvodni dio (motivacija, najava teme, povezivanje sa prethodnim gradivom) & 5 min \\\\
+    \\hline
+    2 & Glavni dio I -- Uvod u I\\textsuperscript{2}L, historija, osnovna struktura & 12 min \\\\
+    \\hline
+    3 & Glavni dio II -- Princip rada, logička stanja, višestruki kolektori & 12 min \\\\
+    \\hline
+    4 & Glavni dio III -- Karakteristike, usporedba, prednosti/nedostaci & 8 min \\\\
+    \\hline
+    5 & Završni dio (ponavljanje, radni listić, zaključak) & 8 min \\\\
+    \\hline
+\\end{tabular}}
+\\end{alertbox}
+\\vspace{0.3cm}
+\\subsection{UVODNI DIO (5 minuta)}
+\\noindent\\adjustbox{max width=\\linewidth}{%
+\\renewcommand{\\arraystretch}{1.5}\\small
+\\begin{tabular}{|L{7.5cm}|L{7.5cm}|}
+    \\hline
+    \\rowcolor{primaryblue}
+    \\multicolumn{1}{|c|}{\\textcolor{white}{\\textbf{AKTIVNOST NASTAVNIKA}}} & \\multicolumn{1}{c|}{\\textcolor{white}{\\textbf{AKTIVNOST UČENIKA}}} \\\\
+    \\hline
+    \\multicolumn{2}{|c|}{\\cellcolor{primaryblue!15}\\textbf{MOTIVACIJA I NAJAVA (5 min)}} \\\\
+    \\hline
+    Pozdravlja učenike. Podsjeća na prethodne lekcije: \\textit{,,Učili smo o TTL logici. Koliko tranzistora ima TTL NAND vrata?''}
+    Uvodi problem: \\textit{,,1970-ih TTL je bio previše složen. Inženjeri su tražili jednostavnije rješenje.''}
+    Najavljuje temu: \\textbf{I\\textsuperscript{2}L -- samo 2 tranzistora po vratima!} &
+    Odgovaraju na pitanja (TTL ima 4+ tranzistora). Razmišljaju o problemu složenosti. Zapisuju naslov u bilježnice. \\\\
+    \\hline
+\\end{tabular}}
+\\vspace{0.3cm}
+\\subsection{GLAVNI DIO I -- Uvod u I\\textsuperscript{2}L, historija, struktura (12 minuta)}
+\\noindent\\adjustbox{max width=\\linewidth}{%
+\\renewcommand{\\arraystretch}{1.5}\\small
+\\begin{tabular}{|L{7.5cm}|L{7.5cm}|}
+    \\hline
+    \\rowcolor{secondaryblue}
+    \\multicolumn{1}{|c|}{\\textcolor{white}{\\textbf{AKTIVNOST NASTAVNIKA}}} & \\multicolumn{1}{c|}{\\textcolor{white}{\\textbf{AKTIVNOST UČENIKA}}} \\\\
+    \\hline
+    \\multicolumn{2}{|c|}{\\cellcolor{secondaryblue!15}\\textbf{DEFINICIJA I HISTORIJA (4 min)}} \\\\
+    \\hline
+    Objašnjava skraćenicu: \\textit{,,I\\textsuperscript{2}L = Integrated Injection Logic = Integrirana Injekcijska Logika''}. Historijski kontekst: 1972., Hart i Slob (Philips), Berger i Wiedmann (IBM). &
+    Prate izlaganje. Zapisuju: I\\textsuperscript{2}L = Integrated Injection Logic, godina: 1972. \\\\
+    \\hline
+    \\multicolumn{2}{|c|}{\\cellcolor{secondaryblue!15}\\textbf{OSNOVNA STRUKTURA ĆELIJE (8 min)}} \\\\
+    \\hline
+    Crta blok dijagram: \\textbf{PNP injektor} (lateralni, izvor struje) + \\textbf{NPN prekidač} (vertikalni, logička funkcija). Crta shemu. \\textit{,,Samo 2 tranzistora umjesto 4+ kod TTL!''} &
+    Crtaju dijagram u bilježnice. Označavaju: $V_{CC}$, GND, ulaz, izlazi ($C_1, C_2, C_n$). \\\\
+    \\hline
+\\end{tabular}}
+\\newpage
+\\subsection{GLAVNI DIO II -- Princip rada, logička stanja (12 minuta)}
+\\noindent\\adjustbox{max width=\\linewidth}{%
+\\renewcommand{\\arraystretch}{1.5}\\small
+\\begin{tabular}{|L{7.5cm}|L{7.5cm}|}
+    \\hline
+    \\rowcolor{accentgreen}
+    \\multicolumn{1}{|c|}{\\textcolor{white}{\\textbf{AKTIVNOST NASTAVNIKA}}} & \\multicolumn{1}{c|}{\\textcolor{white}{\\textbf{AKTIVNOST UČENIKA}}} \\\\
+    \\hline
+    \\multicolumn{2}{|c|}{\\cellcolor{accentgreen!15}\\textbf{INJEKCIJA STRUJE (4 min)}} \\\\
+    \\hline
+    Objašnjava: emiter PNP na $V_{CC}$, kolektor PNP = baza NPN. \\textit{,,PNP ubrizgava struju u bazu NPN-a.''}\\\\Formula: $I_{inj} = \\frac{V_{CC} - V_{BE}}{R_{inj}}$ &
+    Prate na dijagramu. Zapisuju formulu za $I_{inj}$. Razumiju pojam injekcije struje. \\\\
+    \\hline
+    \\multicolumn{2}{|c|}{\\cellcolor{accentgreen!15}\\textbf{LOGIČKA STANJA (5 min)}} \\\\
+    \\hline
+    \\textbf{Ulaz LOW (0V):} NPN OFF, $I_{inj}$ na izlaz, Izlaz = HIGH ($\\approx$0.7V).\\\\
+    \\textbf{Ulaz HIGH ($V_{BE}$):} NPN SAT, $I_{inj}$ kroz NPN, Izlaz = LOW ($\\approx$0.1V).\\\\
+    Crta tablicu istinitosti: \\textbf{INVERTOR!} &
+    Crtaju tablicu: 0$\\to$1, 1$\\to$0. Zaključuju: I\\textsuperscript{2}L ćelija = INVERTOR. \\\\
+    \\hline
+    \\multicolumn{2}{|c|}{\\cellcolor{accentgreen!15}\\textbf{VIŠESTRUKI KOLEKTORI (3 min)}} \\\\
+    \\hline
+    Objašnjava: jedan NPN može imati više kolektora. \\textbf{Wired-AND} spajanjem kolektora.\\\\$Y = \\overline{A+B}$ (NOR) &
+    Zapisuju: fan-out = 3--8. Razumiju Wired-AND i NOR funkciju. \\\\
+    \\hline
+\\end{tabular}}
+\\vspace{0.3cm}
+\\subsection{GLAVNI DIO III -- Karakteristike, usporedba (8 minuta)}
+\\noindent\\adjustbox{max width=\\linewidth}{%
+\\renewcommand{\\arraystretch}{1.5}\\small
+\\begin{tabular}{|L{7.5cm}|L{7.5cm}|}
+    \\hline
+    \\rowcolor{accentorange}
+    \\multicolumn{1}{|c|}{\\textcolor{white}{\\textbf{AKTIVNOST NASTAVNIKA}}} & \\multicolumn{1}{c|}{\\textcolor{white}{\\textbf{AKTIVNOST UČENIKA}}} \\\\
+    \\hline
+    \\multicolumn{2}{|c|}{\\cellcolor{accentorange!15}\\textbf{NAPONSKI NIVOI (3 min)}} \\\\
+    \\hline
+    Navodi: $V_{OH}$=0.7V, $V_{OL}$=0.1V, $V_{swing}$=0.6V.\\\\Uspoređuje: TTL ima $V_{swing}\\approx$3.5V &
+    Zapisuju nivoe. Uočavaju mali $V_{swing}$ kao nedostatak. \\\\
+    \\hline
+    \\multicolumn{2}{|c|}{\\cellcolor{accentorange!15}\\textbf{USPOREDBA I PREDNOSTI/NEDOSTACI (5 min)}} \\\\
+    \\hline
+    Crta tabelu: I\\textsuperscript{2}L ($<$1V, 0.01--1mW) vs TTL (5V, 10mW) vs CMOS (3--5V, $\\mu$W).\\\\
+    \\textbf{+} Visoka gustoća, mala potrošnja, jednostavan proces.\\\\
+    \\textbf{--} Mali $V_{swing}$, osjetljivost na šum, zastarjelo. &
+    Crtaju tabelu usporedbe. Zapisuju 3 prednosti i 3 nedostatka. \\\\
+    \\hline
+\\end{tabular}}
+\\newpage
+\\subsection{ZAVRŠNI DIO (8 minuta)}
+\\noindent\\adjustbox{max width=\\linewidth}{%
+\\renewcommand{\\arraystretch}{1.5}\\small
+\\begin{tabular}{|L{7.5cm}|L{7.5cm}|}
+    \\hline
+    \\rowcolor{primaryblue}
+    \\multicolumn{1}{|c|}{\\textcolor{white}{\\textbf{AKTIVNOST NASTAVNIKA}}} & \\multicolumn{1}{c|}{\\textcolor{white}{\\textbf{AKTIVNOST UČENIKA}}} \\\\
+    \\hline
+    \\multicolumn{2}{|c|}{\\cellcolor{primaryblue!15}\\textbf{PONAVLJANJE (5 min)}} \\\\
+    \\hline
+    Postavlja pitanja:\\\\
+    1. Šta znači I\\textsuperscript{2}L?\\\\2. Dva elementa ćelije?\\\\3. Funkcija PNP?\\\\4. Logička funkcija?\\\\5. $V_{OH}$=? \\quad 6. Glavna prednost? &
+    Odgovaraju:\\\\
+    1. Integrated Injection Logic\\\\2. PNP+NPN\\\\3. Izvor struje\\\\4. INVERTOR\\\\5. 0.7V \\quad 6. Visoka gustoća \\\\
+    \\hline
+    \\multicolumn{2}{|c|}{\\cellcolor{primaryblue!15}\\textbf{RADNI LISTIĆ I ZAKLJUČAK (3 min)}} \\\\
+    \\hline
+    Dijeli radne listiće. Zaključak: \\textit{,,I\\textsuperscript{2}L -- ključna prijelazna tehnologija TTL$\\to$CMOS.''}\\\\Najava: \\textit{,,Sljedeći čas: CMOS logička kola.''} &
+    Primaju listiće. Počinju rješavati. Pozdravljaju nastavnika. \\\\
+    \\hline
+\\end{tabular}}
+\\vspace{0.4cm}
+\\section{Plan ploče}
+\\begin{center}
+\\adjustbox{max width=\\linewidth}{%
+\\begin{tikzpicture}[scale=0.78]
+    \\draw[very thick, primaryblue, rounded corners] (0,0) rectangle (20,13);
+    \\fill[primaryblue!5] (0.1,0.1) rectangle (19.9,12.9);
+    \\node[font=\\normalsize\\bfseries] at (10,12.3) {I\\textsuperscript{2}L -- INTEGRIRANA INJEKCIJSKA LOGIKA};
+    \\draw[primaryblue, thick] (1,11.8) -- (19,11.8);
+    \\node[font=\\bfseries\\small, primaryblue] at (5,11.3) {DEFINICIJA};
+    \\draw[thick] (0.5,9.5) rectangle (9.5,11);
+    \\node[align=left, font=\\scriptsize, anchor=north west] at (0.7,10.8) {I\\textsuperscript{2}L = Integrated Injection Logic\\\\Godina: 1972. (Philips, IBM)\\\\Bipolarna logička obitelj, 2 tranzistora/vrata};
+    \\node[font=\\bfseries\\small, primaryblue] at (5,9.1) {OSNOVNA STRUKTURA};
+    \\draw[thick] (0.5,6.8) rectangle (9.5,8.8);
+    \\node[align=left, font=\\scriptsize, anchor=north west] at (0.7,8.6) {1. \\textbf{PNP injektor} -- lateralni, izvor struje\\\\2. \\textbf{NPN prekidač} -- vertikalni, logička funkcija\\\\Višestruki kolektori $\\rightarrow$ fan-out};
+    \\node[font=\\bfseries\\small, primaryblue] at (15,11.3) {PRINCIP RADA};
+    \\draw[thick] (10.5,9.5) rectangle (19.5,11);
+    \\node[align=left, font=\\scriptsize, anchor=north west] at (10.7,10.8) {$I_{inj}$ iz PNP u bazu NPN\\\\Ulaz LOW $\\rightarrow$ NPN OFF $\\rightarrow$ Izlaz HIGH\\\\Ulaz HIGH $\\rightarrow$ NPN SAT $\\rightarrow$ Izlaz LOW};
+    \\node[font=\\bfseries\\small, primaryblue] at (15,9.1) {NAPONSKI NIVOI};
+    \\draw[thick] (10.5,6.8) rectangle (19.5,8.8);
+    \\node[align=left, font=\\scriptsize, anchor=north west] at (10.7,8.6) {$V_{OH}$ = 0.7V (HIGH) = $V_{BE}$\\\\$V_{OL}$ = 0.1V (LOW) = $V_{CE,sat}$\\\\$V_{swing}$ = 0.6V (mali naponski hod!)};
+    \\node[font=\\bfseries\\small, primaryblue] at (5,6.4) {LOGIČKA FUNKCIJA};
+    \\draw[thick] (0.5,4.8) rectangle (9.5,6.1);
+    \\node[align=left, font=\\scriptsize, anchor=north west] at (0.7,5.9) {Osnovna ćelija = \\textbf{INVERTOR} ($Y = \\overline{A}$)\\\\Wired-AND: $Y = \\overline{A+B}$ = NOR funkcija};
+    \\node[font=\\bfseries\\small, primaryblue] at (15,6.4) {USPOREDBA};
+    \\draw[thick] (10.5,4.8) rectangle (19.5,6.1);
+    \\node[align=center, font=\\scriptsize] at (15,5.45) {I\\textsuperscript{2}L: $<$1V, 0.01mW\\\\TTL: 5V, 10mW | CMOS: 3--5V, $\\mu$W};
+    \\node[font=\\bfseries\\small, primaryblue] at (10,4.4) {PREDNOSTI I NEDOSTACI};
+    \\draw[thick] (2,2) rectangle (18,4.1);
+    \\node[align=center, font=\\scriptsize] at (10,3.2) {\\textbf{+} Visoka gustoća $|$ Mala potrošnja $|$ Jednostavan proces\\\\\\textbf{--} Mali $V_{swing}$ (0.6V) $|$ Osjetljivost na šum $|$ Zastarjelo};
+    \\node[font=\\small, draw, fill=goldcolor!20, rounded corners, text width=16cm, align=center] at (10,1.2) {\\textbf{KLJUČNO:} I\\textsuperscript{2}L = PNP injektor + NPN prekidač = INVERTOR sa višestrukim izlazima};
+\\end{tikzpicture}}
+\\end{center}
+\\newpage
+\\section{Radni listić za učenike}
+\\begin{tcolorbox}[colback=white,colframe=primaryblue,title={\\faMicrochip\\ RADNI LISTIĆ -- I\\textsuperscript{2}L Integrirana Injekcijska Logika},fonttitle=\\bfseries,breakable]
+\\small
+\\textbf{Ime i prezime:} \\underline{\\hspace{4cm}} \\textbf{Razred:} \\underline{\\hspace{1.5cm}} \\textbf{Datum:} \\underline{\\hspace{2cm}}
+\\vspace{0.3cm}
+
+\\textbf{1.} Napišite puni naziv skraćenice I\\textsuperscript{2}L na engleskom i bosanskom: (2 boda)\\\\
+Engleski: \\underline{\\hspace{5.5cm}} \\quad Bosanski: \\underline{\\hspace{5.5cm}}
+\\vspace{0.3cm}
+
+\\textbf{2.} Navedite dva osnovna elementa I\\textsuperscript{2}L ćelije i funkciju: (4 boda)\\\\
+\\noindent\\adjustbox{max width=\\linewidth}{%
+\\begin{tabular}{|l|l|l|}\\hline & \\textbf{Element} & \\textbf{Funkcija} \\\\\\hline a) & \\underline{\\hspace{4cm}} & \\underline{\\hspace{6cm}} \\\\\\hline b) & \\underline{\\hspace{4cm}} & \\underline{\\hspace{6cm}} \\\\\\hline\\end{tabular}}
+\\vspace{0.3cm}
+
+\\textbf{3.} Dopunite naponske nivoe I\\textsuperscript{2}L logike: (3 boda)\\\\
+$V_{OH}$ = \\underline{\\hspace{1.8cm}} V \\qquad $V_{OL}$ = \\underline{\\hspace{1.8cm}} V \\qquad $V_{swing}$ = \\underline{\\hspace{1.8cm}} V
+\\vspace{0.3cm}
+
+\\textbf{4.} Popunite tablicu istinitosti i napišite logičku funkciju: (3 boda)\\\\
+\\begin{minipage}{0.28\\textwidth}\\begin{tabular}{|c|c|}\\hline \\textbf{Ulaz A} & \\textbf{Izlaz Y} \\\\\\hline 0 & \\underline{\\hspace{1cm}} \\\\\\hline 1 & \\underline{\\hspace{1cm}} \\\\\\hline\\end{tabular}\\end{minipage}\\hfill\\begin{minipage}{0.68\\textwidth}Logička funkcija: $Y =$ \\underline{\\hspace{2.5cm}}\\\\[0.3cm]Naziv funkcije: \\underline{\\hspace{3.5cm}}\\end{minipage}
+\\vspace{0.3cm}
+
+\\textbf{5.} Šta je "Wired-AND" i koja logička funkcija nastaje spajanjem kolektora? (2 boda)\\\\
+\\vspace{0.7cm}\\dotfill
+\\vspace{0.3cm}
+
+\\textbf{6.} Dopunite tabelu usporedbe logičkih obitelji: (3 boda)\\\\
+\\noindent\\adjustbox{max width=\\linewidth}{%
+\\begin{tabular}{|l|c|c|c|}\\hline \\textbf{Parametar} & \\textbf{I\\textsuperscript{2}L} & \\textbf{TTL} & \\textbf{CMOS} \\\\\\hline Napajanje & \\underline{\\hspace{2cm}} V & 5 V & 3.3--5 V \\\\\\hline Potrošnja/vrata & 0.01--1 mW & \\underline{\\hspace{2cm}} mW & $\\mu$W \\\\\\hline Gustoća integracije & \\underline{\\hspace{2cm}} & Srednja & Visoka \\\\\\hline\\end{tabular}}
+\\vspace{0.3cm}
+
+\\textbf{7.} Navedite tri prednosti I\\textsuperscript{2}L tehnologije: (3 boda)\\\\
+a) \\underline{\\hspace{4.5cm}} \\quad b) \\underline{\\hspace{4.5cm}} \\quad c) \\underline{\\hspace{4.5cm}}
+\\vspace{0.3cm}
+
+\\textbf{8.} Navedite tri nedostatka I\\textsuperscript{2}L tehnologije: (3 boda)\\\\
+a) \\underline{\\hspace{4.5cm}} \\quad b) \\underline{\\hspace{4.5cm}} \\quad c) \\underline{\\hspace{4.5cm}}
+\\vspace{0.3cm}
+
+\\textbf{9.} Koje godine je razvijena I\\textsuperscript{2}L i koje kompanije su je razvile? (2 boda)\\\\
+Godina: \\underline{\\hspace{2cm}} \\qquad Kompanije: \\underline{\\hspace{3.5cm}} i \\underline{\\hspace{3.5cm}}
+\\vspace{0.4cm}
+\\begin{flushright}\\textbf{Ukupno:} \\underline{\\hspace{1.5cm}} / 25 \\qquad \\textbf{Ocjena:} \\underline{\\hspace{1.5cm}}\\end{flushright}
+\\end{tcolorbox}
+\\newpage
+\\section{Rješenja radnog listića}
+\\begin{successbox}[\\faCheckCircle\\ RJEŠENJA]
+\\small
+\\textbf{1.} Engleski: \\textbf{Integrated Injection Logic} \\quad Bosanski: \\textbf{Integrirana Injekcijska Logika} (2 boda)\\\\[4pt]
+\\textbf{2.} a) \\textbf{PNP injektor} -- izvor injekcijske struje \\quad b) \\textbf{NPN prekidač} -- logička funkcija (4 boda)\\\\[4pt]
+\\textbf{3.} $V_{OH}$ = \\textbf{0.7} V, $V_{OL}$ = \\textbf{0.1} V, $V_{swing}$ = \\textbf{0.6} V (3 boda)\\\\[4pt]
+\\textbf{4.} 0$\\to$\\textbf{1}, 1$\\to$\\textbf{0} \\quad $Y = \\overline{A}$ \\quad Naziv: \\textbf{INVERTOR} (NOT) (3 boda)\\\\[4pt]
+\\textbf{5.} Wired-AND = spajanje kolektora različitih ćelija -- AND funkcija invertiranih ulaza. Dvije ćelije $\\to$ \\textbf{NOR}: $Y = \\overline{A+B}$ (2 boda)\\\\[4pt]
+\\textbf{6.} I\\textsuperscript{2}L napajanje: \\textbf{$<$1V}, TTL potrošnja: \\textbf{1--20 mW}, I\\textsuperscript{2}L gustoća: \\textbf{Vrlo visoka} (3 boda)\\\\[4pt]
+\\textbf{7.} Visoka gustoća integracije, Niska potrošnja snage, Jednostavan proizvodni proces (3 boda)\\\\[4pt]
+\\textbf{8.} Mali naponski hod (0.6V), Niska otpornost na šum, Ograničen fan-out (3 boda)\\\\[4pt]
+\\textbf{9.} Godina: \\textbf{1972} \\quad Kompanije: \\textbf{Philips} i \\textbf{IBM} (2 boda)\\\\[6pt]
+\\textbf{Skala:} 0--12=nedovoljan(1), 13--15=dovoljan(2), 16--18=dobar(3), 19--22=vrlo dobar(4), 23--25=odličan(5)
+\\end{successbox}
+\\section{Evaluacija i procjena uspješnosti}
+\\begin{minipage}[t]{0.48\\textwidth}
+\\begin{infobox}[\\faChartLine\\ KRITERIJI USPJEŠNOSTI]
+\\footnotesize\\begin{itemize}[nosep,leftmargin=*]
+    \\item 80\\% učenika zna dva elementa I\\textsuperscript{2}L ćelije
+    \\item Učenici znaju funkciju PNP injektora
+    \\item Znaju da je osnovna ćelija INVERTOR
+    \\item Znaju $V_{OH}$ i $V_{OL}$
+    \\item 70\\% postiže pozitivnu ocjenu na listiću
+\\end{itemize}\\end{infobox}
+\\end{minipage}\\hfill
+\\begin{minipage}[t]{0.48\\textwidth}
+\\begin{alertbox}[\\faExclamationTriangle\\ MOGUĆE POTEŠKOĆE]
+\\footnotesize\\noindent\\adjustbox{max width=\\linewidth}{%
+\\begin{tabular}{|L{3.2cm}|L{3.5cm}|}\\hline
+\\textbf{Poteškoća} & \\textbf{Rješenje} \\\\\\hline
+Pojam ,,injekcija'' & Analogija: pumpa za vodu \\\\\\hline
+PNP vs NPN & PNP=struja, NPN=logika \\\\\\hline
+Mali $V_{swing}$ & Usporediti s TTL \\\\\\hline
+Wired-AND & Crtež spajanja \\\\\\hline
+\\end{tabular}}
+\\end{alertbox}
+\\end{minipage}
+\\vspace{0.4cm}
+\\begin{infobox}[\\faStickyNote\\ NAPOMENE ZA NASTAVNIKA]
+\\footnotesize\\begin{itemize}[nosep,leftmargin=*]
+    \\item Povezati sa gradivom o TTL logici i bipolarnim tranzistorima
+    \\item Naglasiti historijski značaj I\\textsuperscript{2}L kao prijelazne tehnologije (TTL $\\rightarrow$ CMOS)
+    \\item Koristiti boje: narandžasta za PNP, plava za NPN na crtežima
+    \\item Napomenuti da se I\\textsuperscript{2}L danas rijetko koristi, ali principi su važni
+    \\item Za naprednije učenike: BiCMOS kao moderna kombinacija bipolarnih i CMOS tranzistora
+\\end{itemize}\\end{infobox}
+\\vspace{0.4cm}
+\\noindent\\begin{tikzpicture}
+    \\node[draw,rounded corners,fill=primaryblue!10,minimum width=\\linewidth-2*\\pgfkeysvalueof{/pgf/inner xsep},minimum height=2.2cm,align=center, text width=\\linewidth-1cm]{
+        \\textbf{BILJEŠKE NAKON ČASA}\\\\[0.3cm]
+        \\dotfill\\\\[0.3cm]\\dotfill\\\\[0.3cm]\\dotfill
+    };
+\\end{tikzpicture}
+\\vspace{0.4cm}
+\\begin{flushright}\\textbf{Potpis nastavnika:} \\underline{\\hspace{4.5cm}}\\end{flushright}
 \\end{document}`;
 
-// ──────────────────────────────────────────────────────────────────────────────
-// FUNKCIJE
-function showLoading() {
-  document.getElementById('loadingOverlay').style.display = 'flex';
-}
-
-function hideLoading() {
-  document.getElementById('loadingOverlay').style.display = 'none';
-}
-
-function toggleLatexEditor() {
-  const cont = document.getElementById('latexEditorContainer');
-  cont.style.display = cont.style.display === 'none' ? 'block' : 'none';
-}
-
-function setLoading(loading) {
-  const btn = document.getElementById('generateBtn');
-  btn.disabled = loading;
-  document.getElementById('btnSpinner').style.display = loading ? 'block' : 'none';
-  document.getElementById('btnText').textContent = loading ? 'Generisanje...' : '✦ Generiši Pripremu';
-}
-
-function showStatus(type, msg) {
-  const bar = document.getElementById('statusBar');
-  bar.className = `status-bar ${type}`;
-  document.getElementById('statusText').textContent = msg;
-  bar.style.display = 'flex';
-}
-
-function showCompileStatus(type, msg) {
-  const bar = document.getElementById('compileStatus');
-  bar.className = `status-bar ${type}`;
-  document.getElementById('compileStatusText').innerHTML = msg;
-  bar.style.display = 'flex';
-}
+// ===== GENERATE + AUTO COMPILE =====
+let generatedLatex = '';
 
 async function generatePriprema() {
   const apiKey = document.getElementById('apiKey').value.trim();
   const predmet = document.getElementById('predmet').value.trim();
-  const tema   = document.getElementById('tema').value.trim();
+  const tema = document.getElementById('tema').value.trim();
   const nastavnik = document.getElementById('nastavnik').value.trim();
-  const skola  = document.getElementById('skola').value.trim();
+  const skola = document.getElementById('skola').value.trim();
   const razred = document.getElementById('razred').value.trim();
   const brojUcenika = document.getElementById('brojUcenika').value;
   const tipCasa = document.getElementById('tipCasa').value;
   const napomene = document.getElementById('napomene').value.trim();
 
-  if (!apiKey)   return showStatus('error', 'Unesite Mistral API ključ!');
-  if (!predmet)  return showStatus('error', 'Unesite predmet!');
-  if (!tema)     return showStatus('error', 'Unesite nastavnu jedinicu / temu!');
+  if (!apiKey) return showStatus('error', 'Unesite Mistral API ključ!');
+  if (!predmet) return showStatus('error', 'Unesite naziv predmeta!');
+  if (!tema) return showStatus('error', 'Unesite nastavnu jedinicu (temu)!');
+  if (!razred) return showStatus('error', 'Unesite razred!');
 
   setLoading(true);
   showLoading();
-  showStatus('info', 'AI radi na pripremi...');
+  document.getElementById('pdfSection').classList.remove('visible');
 
-  const systemPrompt = `Ti si iskusan nastavnik i LaTeX ekspert. 
-Dobijaš referentni LaTeX dokument i moraš vratiti IDENTIČNO strukturiran dokument za novu temu.
-Pravila (obavezno):
-1. Zadrži SVU LaTeX strukturu, pakete, boje, tikzpicture, tcolorbox, tabular dimenzije...
-2. Na naslovnoj strani NE PIŠI "ELEKTROTEHNIČKA ŠKOLA TUZLA" u istom redu sa "PRIPREMA ZA NASTAVNI ČAS" — stavi vertikalni razmak \\vspace{1.8cm} ili više između njih.
-3. Vrati SAMO čisti LaTeX od \\documentclass do \\end{document} — bez markdowna, bez objašnjenja.`;
+  const systemPrompt = `Ti si iskusan nastavnik i LaTeX ekspert koji prilagođava nastavne pripreme.
+Dobijas kompletan LaTeX dokument kao referencu. Vraćaš IDENTIČNO strukturiran dokument za novi predmet i temu.
 
-  const userPrompt = `Referentni dokument:
+PRAVILA (SVA MORAJU BITI ISPUNJENA):
+1. Zadrži IDENTIČNU LaTeX strukturu: tcolorbox, tikzpicture, tabular, minipage, enumerate, itemize, adjustbox
+2. Svaka tabela mora biti omotana u: \\noindent\\adjustbox{max width=\\linewidth}{% ... }
+3. Plan ploče tikzpicture mora biti omotan u: \\adjustbox{max width=\\linewidth}{% ... }
+4. Zadrži iste boje: primaryblue, secondaryblue, accentorange, accentgreen, goldcolor, lightgray
+5. Zadrži iste dimenzije kolona: L{7.5cm}|L{7.5cm} u artikulaciji, L{3.8cm} u identifikaciji
+6. Zadrži iste fontawesome ikone: faGraduationCap, faHeart, faCogs, faClock, faChartLine, faExclamationTriangle, faStickyNote, faMicrochip, faCheckCircle
+7. Vremenski raspored IDENTIČAN: 5+12+12+8+8 minuta
+8. Radni listić: 9 pitanja, 25 bodova ukupno, ista skala ocjenjivanja
+9. tikzpicture plan ploče: draw[very thick, primaryblue, rounded corners] (0,0) rectangle (20,13)
+10. Na naslovnoj strani iza naziva škole MORA biti \\\\\\\\ (novi red u LaTeX-u) da naziv priprema počne u novom redu
+11. Sav tekst unutar tabela mora koristiti \\\\\\\\ za prijelaz u novi red umjesto praznog reda
+12. Iste pakete u preambuli (uključujući adjustbox), ne dodavaj nove
+13. Mijenjaj SAMO sadržaj: predmet, temu, nastavnika, školu, razred, broj učenika, tekst artikulacije, ciljeve, pitanja, rješenja, plan ploče
+14. Sadržaj mora biti STRUČNO TAČAN za novi predmet/temu
+15. Jezik: bosanski/hrvatski ijekavica
+16. Artikulacija: konkretna pitanja nastavnika u \\textit{} sa ,,bosanskim navodnicima'', konkretni odgovori
+17. Plan ploče: sadržaj specifičan za temu sa relevantnim formulama i pojmovima
+18. Vrati KOMPLETAN LaTeX dokument od \\documentclass do \\end{document}
+19. Bez markdown ograđivanja, bez objašnjenja — samo čisti LaTeX`;
+
+  const userPrompt = `Referentni LaTeX dokument:
+
 ${ORIGINAL_DOC}
 
+---
 PRILAGODI ZA:
 - Škola: ${skola}
 - Predmet: ${predmet}
-- Tema: ${tema}
+- Nastavna jedinica: ${tema}
 - Nastavnik: ${nastavnik}
 - Razred: ${razred}
 - Broj učenika: ${brojUcenika}
 - Tip časa: ${tipCasa}
-${napomene ? `Napomene: ${napomene}` : ''}
+${napomene ? `- Napomene: ${napomene}` : ''}
 
-Vrati KOMPLETAN LaTeX dokument.`;
+Zadrži IDENTIČNU LaTeX strukturu sa svim adjustbox omotačima. Vrati kompletan LaTeX dokument.`;
 
   try {
+    setLoadingPct(20, 'Slanje upita Mistral AI-ju...');
     const response = await fetch('https://api.mistral.ai/v1/chat/completions', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${apiKey}`
-      },
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
       body: JSON.stringify({
         model: 'mistral-large-latest',
         max_tokens: 16000,
-        temperature: 0.25,
+        temperature: 0.15,
         messages: [
           { role: 'system', content: systemPrompt },
           { role: 'user', content: userPrompt }
@@ -423,137 +929,124 @@ Vrati KOMPLETAN LaTeX dokument.`;
       })
     });
 
-    if (!response.ok) throw new Error(`Mistral API greška: ${response.status}`);
+    if (!response.ok) {
+      const err = await response.json();
+      throw new Error(err.error?.message || `HTTP ${response.status}`);
+    }
 
+    setLoadingPct(55, 'AI završio — priprema LaTeX dokumenta...');
     const data = await response.json();
     let latex = data.choices[0].message.content.trim();
 
-    // Čišćenje mogućeg markdowna
-    latex = latex.replace(/^```latex\s*/i, '').replace(/```$/g, '').trim();
-    if (latex.indexOf('\\documentclass') > 0) {
-      latex = latex.substring(latex.indexOf('\\documentclass'));
-    }
+    // Cleanup markdown fences
+    latex = latex.replace(/^```latex[^\n]*/im,'').replace(/^```tex[^\n]*/im,'')
+                 .replace(/^```[^\n]*/im,'').replace(/```[\s\S]*$/gim,'').trim();
+    const ds = latex.indexOf('\\documentclass');
+    if (ds > 0) latex = latex.substring(ds);
+    if (!latex.includes('\\documentclass')) throw new Error('AI nije vratio validan LaTeX. Pokušaj ponovo.');
     if (!latex.includes('\\end{document}')) latex += '\n\\end{document}';
 
-    document.getElementById('latexOutput').value = latex;
-    document.getElementById('resultSection').classList.add('visible');
+    generatedLatex = latex;
 
-    // Automatsko kompajliranje
-    setTimeout(() => {
-      compileTexlive();
-      document.getElementById('compileSection').classList.add('visible');
-      document.getElementById('compileSection').scrollIntoView({behavior:'smooth', block:'start'});
-    }, 1200);
+    // Setup download .tex link
+    const texBlob = new Blob([latex], {type:'text/plain;charset=utf-8'});
+    const texUrl = URL.createObjectURL(texBlob);
+    const dlTex = document.getElementById('downloadTex');
+    dlTex.href = texUrl;
+    dlTex.download = `priprema_${predmet}_${tema}.tex`.replace(/\s+/g,'_').toLowerCase();
 
-    showStatus('success', `✓ Priprema za "${tema}" je spremna!`);
-  } catch (err) {
+    // Now auto-compile
+    setLoadingPct(65, 'Kompajliranje PDF-a na TeXLive.net...');
+    await compileAndShow(latex, predmet, tema);
+
+  } catch(err) {
     console.error(err);
-    showStatus('error', 'Greška: ' + err.message);
-  } finally {
-    setLoading(false);
     hideLoading();
+    setLoading(false);
+    showStatus('error', `Greška: ${err.message}`);
   }
 }
 
-async function compileTexlive() {
-  const latex = document.getElementById('latexOutput').value.trim();
-  if (!latex) return;
-
-  showCompileStatus('info', 'Kompajliranje LaTeX-a...');
-  document.getElementById('pdfFrameWrap').classList.remove('visible');
-
+async function compileAndShow(latex, predmet, tema) {
   try {
-    const isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
-    const url = isLocal ? 'http://localhost:5000/compile' : 'https://latex-proxy-server.onrender.com/compile';
+    setLoadingPct(72, 'Slanje na TeXLive.net kompajler...');
+    const formData = new FormData();
+    formData.append('filecontents[]', latex);
+    formData.append('filename[]', 'document.tex');
+    formData.append('engine', 'pdflatex');
+    formData.append('return', 'pdf');
 
-    const resp = await fetch(url, {
+    const resp = await fetch('https://texlive.net/cgi-bin/latexcgi', {
       method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({ latex })
+      body: formData
     });
 
-    if (!resp.ok) {
-      const err = await resp.json().catch(() => ({}));
-      throw new Error(err.error || `HTTP ${resp.status}`);
+    const contentType = resp.headers.get('content-type') || '';
+    setLoadingPct(90, 'Učitavanje PDF-a...');
+
+    if (resp.ok && contentType.includes('pdf')) {
+      const blob = await resp.blob();
+      const pdfUrl = URL.createObjectURL(blob);
+
+      document.getElementById('pdfFrame').src = pdfUrl;
+      document.getElementById('pdfFilename').textContent =
+        `priprema_${predmet}_${tema}.pdf`.replace(/\s+/g,'_').toLowerCase();
+
+      const dlPdf = document.getElementById('downloadPdfBtn');
+      dlPdf.href = pdfUrl;
+      dlPdf.download = `priprema_${predmet}_${tema}.pdf`.replace(/\s+/g,'_').toLowerCase();
+
+      setLoadingPct(100, 'Gotovo!');
+      setTimeout(()=>{
+        hideLoading();
+        setLoading(false);
+        document.getElementById('pdfSection').classList.add('visible');
+        showStatus('success', `✓ Priprema generisana i kompajlirana! Predmet: ${predmet} — Tema: ${tema}`);
+        document.getElementById('pdfSection').scrollIntoView({behavior:'smooth',block:'start'});
+      }, 700);
+
+    } else {
+      // TeXLive returned error — try Overleaf fallback
+      const text = await resp.text().catch(()=>'');
+      const errLine = (text.match(/^! .+/m)||['Nepoznata LaTeX greška'])[0];
+      console.error('LaTeX log:', text);
+      hideLoading();
+      setLoading(false);
+      showStatus('error', `LaTeX greška: ${errLine} — Kopiraj .tex i kompajliraj u Overleaf.`);
+      // Still show download tex button
+      document.getElementById('pdfSection').classList.add('visible');
+      document.getElementById('pdfFrame').src = '';
     }
-
-    const ct = resp.headers.get('content-type') || '';
-    if (!ct.includes('pdf')) throw new Error('Nije vraćen PDF');
-
-    const blob = await resp.blob();
-    const pdfUrl = URL.createObjectURL(blob);
-
-    document.getElementById('pdfFrame').src = pdfUrl;
-    document.getElementById('pdfFrameWrap').classList.add('visible');
-
-    showCompileStatus('success',
-      'PDF gotov! <a href="'+pdfUrl+'" download="priprema.pdf" style="color:var(--green);font-weight:bold">⬇ Skini PDF</a>'
-    );
-  } catch (err) {
-    console.error(err);
-    showCompileStatus('error', 'Greška: ' + err.message +
-      ' — <a href="#" onclick="compileWithOverleaf();return false;" style="color:var(--gold)">Pokušaj Overleaf</a>');
+  } catch(corsErr) {
+    // CORS — open in new tab via Overleaf
+    console.warn('CORS blokirano, fallback na Overleaf POST');
+    setLoadingPct(95, 'Otvaram Overleaf...');
+    _overleafPost(latex);
+    setTimeout(()=>{
+      hideLoading();
+      setLoading(false);
+      showStatus('info', 'PDF se otvara u Overleaf-u u novom tabu — klikni Recompile pa Download PDF.');
+    }, 1000);
   }
 }
 
-function compileWithOverleaf() {
-  const latex = document.getElementById('latexOutput').value;
-  if (!latex) return;
-
+function _overleafPost(latex) {
   const form = document.createElement('form');
-  form.method = 'POST';
-  form.action = 'https://www.overleaf.com/docs';
-  form.target = '_blank';
-
-  const snip = document.createElement('input');
-  snip.type = 'hidden'; snip.name = 'snip'; snip.value = latex;
-  form.appendChild(snip);
-
-  const name = document.createElement('input');
-  name.type = 'hidden'; name.name = 'snip_name'; name.value = 'priprema.tex';
-  form.appendChild(name);
-
-  document.body.appendChild(form);
-  form.submit();
-  document.body.removeChild(form);
-
-  showCompileStatus('success', 'Overleaf otvoren — klikni Recompile pa Download.');
+  form.method='POST'; form.action='https://www.overleaf.com/docs'; form.target='_blank';
+  const inp = document.createElement('input');
+  inp.type='hidden'; inp.name='snip'; inp.value=latex; form.appendChild(inp);
+  const nm = document.createElement('input');
+  nm.type='hidden'; nm.name='snip_name'; nm.value='priprema.tex'; form.appendChild(nm);
+  document.body.appendChild(form); form.submit(); document.body.removeChild(form);
 }
 
-function copyLatex() {
-  const text = document.getElementById('latexOutput').value;
-  navigator.clipboard.writeText(text)
-    .then(() => showStatus('success', 'LaTeX kopiran!'))
-    .catch(() => {
-      document.getElementById('latexOutput').select();
-      document.execCommand('copy');
-      showStatus('success', 'Kopirano (fallback)');
-    });
-}
-
-function downloadLatex() {
-  const text = document.getElementById('latexOutput').value;
-  const predmet = document.getElementById('predmet').value.trim() || 'priprema';
-  const tema = document.getElementById('tema').value.trim() || 'cas';
-  const filename = `priprema_${predmet}_${tema.replace(/\s+/g,'_')}.tex`.toLowerCase();
-
-  const blob = new Blob([text], {type: 'text/plain;charset=utf-8'});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = filename;
-  a.click();
-  URL.revokeObjectURL(url);
-}
-
-// API ključ pamćenje
-document.getElementById('apiKey').addEventListener('input', e => {
-  sessionStorage.setItem('mistral_api_key', e.target.value);
+// ===== SESSION STORAGE =====
+document.getElementById('apiKey').addEventListener('input',function(){
+  sessionStorage.setItem('mistral_api_key',this.value);
 });
-
-window.addEventListener('load', () => {
-  const saved = sessionStorage.getItem('mistral_api_key');
-  if (saved) document.getElementById('apiKey').value = saved;
+window.addEventListener('load',function(){
+  const saved=sessionStorage.getItem('mistral_api_key');
+  if(saved)document.getElementById('apiKey').value=saved;
 });
 </script>
 </body>
