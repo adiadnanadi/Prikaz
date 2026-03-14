@@ -328,7 +328,7 @@ textarea{resize:vertical;min-height:110px;line-height:1.6}
     <div class="pdf-header">
       <div class="pdf-title">Nastavna Priprema — PDF</div>
       <div class="pdf-actions">
-        <a class="btn-dl btn-dl-outline" id="downloadTex" href="#" download="priprema.tex">↓ Skini .tex</a>
+        <a class="btn-dl btn-dl-outline" id="downloadTex" href="#" download="priprema.tex" style="display:none">↓ Skini .tex</a>
         <a class="btn-dl btn-dl-green" id="downloadPdfBtn" href="#" download="priprema.pdf">⬇ Skini PDF</a>
       </div>
     </div>
@@ -551,51 +551,68 @@ const ORIGINAL_DOC = `\\documentclass[a4paper,11pt]{article}
 % ==================== NASLOVNA STRANA ====================
 \\begin{titlepage}
 \\begin{tikzpicture}[remember picture, overlay]
-    \\fill[primaryblue] (current page.north west) rectangle ([yshift=-3.5cm]current page.north east);
-    \\fill[secondaryblue, opacity=0.5] ([yshift=-2.5cm]current page.north west) -- ([yshift=-3.5cm]current page.north west) -- ([xshift=6cm, yshift=-3.5cm]current page.north west) -- cycle;
-    \\fill[primaryblue] (current page.south west) rectangle ([yshift=1.5cm]current page.south east);
-    \\node[circle, fill=goldcolor, minimum size=2.5cm] at ([yshift=-1.7cm]current page.north) {};
-    \\node[primaryblue, font=\\fontsize{18}{22}\\selectfont\\bfseries] at ([yshift=-1.7cm]current page.north) {I\\textsuperscript{2}L};
+    % Zaglavlje
+    \\fill[primaryblue] (current page.north west) rectangle ([yshift=-4cm]current page.north east);
+    \\fill[secondaryblue, opacity=0.4] ([yshift=-3cm]current page.north west) -- ([yshift=-4cm]current page.north west) -- ([xshift=8cm, yshift=-4cm]current page.north west) -- cycle;
+    \\fill[accentorange, opacity=0.6] ([yshift=-4cm]current page.north east) -- ([yshift=-4cm, xshift=-8cm]current page.north east) -- ([xshift=-0cm, yshift=-3cm]current page.north east) -- cycle;
+    % Podnozje
+    \\fill[primaryblue] (current page.south west) rectangle ([yshift=2cm]current page.south east);
+    \\fill[secondaryblue, opacity=0.4] (current page.south west) rectangle ([yshift=2cm, xshift=8cm]current page.south west);
+    % Zlatni krug sa simbolom
+    \\node[circle, fill=goldcolor, minimum size=3cm, draw=white, line width=2pt] at ([yshift=-2cm]current page.north) {};
+    \\node[primaryblue, font=\\fontsize{16}{20}\\selectfont\\bfseries] at ([yshift=-2cm]current page.north) {I\\textsuperscript{2}L};
+    % Naziv u zaglavlju
+    \\node[white, font=\\small\\bfseries\\scshape, anchor=west] at ([yshift=-0.9cm, xshift=1.5cm]current page.north west) {ELEKTROTEHNIČKA ŠKOLA TUZLA};
+    \\node[white!80, font=\\footnotesize, anchor=east] at ([yshift=-0.9cm, xshift=-1.5cm]current page.north east) {Školska godina 2025/2026.};
+    % Dekorativna zlatna linija ispod zaglavlja
+    \\draw[goldcolor, line width=2pt] ([yshift=-4.1cm]current page.north west) -- ([yshift=-4.1cm]current page.north east);
 \\end{tikzpicture}
 
-\\vspace{4cm}
+\\vspace{5.2cm}
 
 \\begin{center}
-    {\\fontsize{12}{14}\\selectfont\\textcolor{darkgray}{ELEKTROTEHNIČKA ŠKOLA TUZLA}}\\\\
-    \\vspace{2.5cm}
-    {\\fontsize{24}{28}\\selectfont\\textcolor{primaryblue}{\\textbf{PRIPREMA ZA NASTAVNI ČAS}}}\\\\
-    \\vspace{1.5cm}
+    % Siva dekorativna linija gore
+    {\\color{primaryblue!30}\\rule{10cm}{0.4pt}}\\\\[0.5cm]
+    {\\fontsize{11}{13}\\selectfont\\textcolor{primaryblue!60}{\\textsc{priprema za nastavni čas}}}\\\\[0.4cm]
+    % Glavni naslov
+    {\\fontsize{26}{30}\\selectfont\\textcolor{primaryblue}{\\textbf{Nastavna priprema}}}\\\\[0.6cm]
+    % Tcolorbox za temu - potpuna širina
     \\begin{tcolorbox}[
-        colback=lightgray, colframe=primaryblue,
-        width=12cm, center, boxrule=2pt, arc=4mm
+        colback=primaryblue, colframe=primaryblue,
+        width=\\linewidth, center, boxrule=0pt, arc=0pt,
+        left=12pt, right=12pt, top=14pt, bottom=14pt
     ]
         \\centering
-        {\\Large\\textbf{Nastavna jedinica:}}\\\\[0.3cm]
-        {\\LARGE\\textcolor{primaryblue}{\\textbf{I\\textsuperscript{2}L - Integrirana Injekcijska Logika}}}\\\\[0.2cm]
-        {\\large\\textcolor{secondaryblue}{Integrated Injection Logic}}
+        {\\small\\textcolor{goldcolor}{\\textsc{Nastavna jedinica}}}\\\\[0.4cm]
+        {\\Large\\textcolor{white}{\\textbf{I\\textsuperscript{2}L $\\cdot$ Integrirana Injekcijska Logika}}}\\\\[0.2cm]
+        {\\normalsize\\textcolor{white!70}{Integrated Injection Logic}}
     \\end{tcolorbox}
-    \\vspace{2.5cm}
-    \\begin{tabular}{ll}
-        \\textbf{Nastavnik:} & Adnan Sahanić, dipl.~ing.~el.~teh. \\\\[0.15cm]
-        \\textbf{Predmet:} & Elektronika \\\\[0.15cm]
-        \\textbf{Školska godina:} & 2025/2026.
-    \\end{tabular}
+    \\vspace{0.6cm}
+    % Dekorativna linija dole
+    {\\color{primaryblue!30}\\rule{10cm}{0.4pt}}\\\\[1.2cm]
+    % Tabela podataka - elegantna
+    \\begin{tabularx}{10cm}{>{\\bfseries\\color{primaryblue}}l >{\\raggedright\\arraybackslash}X}
+        Nastavnik: & Adnan Sahanić, dipl.~ing.~el.~teh. \\\\[0.25cm]
+        Predmet: & Elektronika \\\\[0.25cm]
+        Razred: & Četvrti (IV) \\\\[0.25cm]
+        Školska godina: & 2025/2026.
+    \\end{tabularx}
 \\end{center}
 
 \\vfill
 
 \\begin{tikzpicture}[remember picture, overlay]
-    \\node[white, anchor=south] at ([yshift=0.5cm]current page.south) {\\small Tuzla, \\today};
+    \\node[white, anchor=south, font=\\small] at ([yshift=0.8cm]current page.south) {Tuzla, \\today};
+    \\node[white!60, anchor=south, font=\\footnotesize] at ([yshift=0.35cm]current page.south) {\\textsc{Elektrotehnička škola Tuzla}};
 \\end{tikzpicture}
 \\end{titlepage}
 
 % ==================== STRANA 2: OSNOVNI PODACI I CILJEVI ====================
 \\section{Osnovni podaci o nastavnom času}
 
-\\noindent\\adjustbox{max width=\\linewidth}{%
 \\renewcommand{\\arraystretch}{1.4}
 \\small
-\\begin{tabular}{|>{\\columncolor{primaryblue!10}}L{3.8cm}|L{5cm}|>{\\columncolor{primaryblue!10}}L{3cm}|L{3.5cm}|}
+\\begin{tabularx}{\\linewidth}{|>{\\columncolor{primaryblue!10}\\raggedright\\arraybackslash}p{3.5cm}|>{\\raggedright\\arraybackslash}X|>{\\columncolor{primaryblue!10}\\raggedright\\arraybackslash}p{2.8cm}|>{\\raggedright\\arraybackslash}p{2.8cm}|}
     \\hline
     \\rowcolor{primaryblue}
     \\multicolumn{4}{|c|}{\\textcolor{white}{\\textbf{IDENTIFIKACIJSKI PODACI}}} \\\\
@@ -608,7 +625,7 @@ const ORIGINAL_DOC = `\\documentclass[a4paper,11pt]{article}
     \\hline
     \\textbf{Tip časa:} & Obrada novog gradiva & \\textbf{Broj učenika:} & 19 \\\\
     \\hline
-\\end{tabular}}
+\\end{tabularx}
 
 \\vspace{0.3cm}
 
@@ -967,79 +984,85 @@ Učenici će biti u stanju:
 
 \\section{Plan ploče}
 
-\\begin{center}
-\\noindent\\adjustbox{max width=\\linewidth}{%
-\\begin{tikzpicture}[scale=0.82]
-    \\draw[very thick, primaryblue, rounded corners] (0,0) rectangle (20,13);
-    \\fill[primaryblue!5] (0.1,0.1) rectangle (19.9,12.9);
+% Okvir koji se prilagodjava visini sadrzaja
+\\begin{tcolorbox}[
+    colback=primaryblue!4, colframe=primaryblue, boxrule=1.5pt,
+    arc=3pt, left=6pt, right=6pt, top=8pt, bottom=8pt,
+    title={\\centering\\bfseries I\\textsuperscript{2}L -- INTEGRIRANA INJEKCIJSKA LOGIKA},
+    fonttitle=\\bfseries\\normalsize\\color{white},
+    colbacktitle=primaryblue, breakable
+]
 
-    % Naslov
-    \\node[font=\\large\\bfseries] at (10,12.3) {I\\textsuperscript{2}L - INTEGRIRANA INJEKCIJSKA LOGIKA};
-    \\draw[primaryblue, thick] (1,11.8) -- (19,11.8);
+\\begin{tabularx}{\\linewidth}{>{\\raggedright\\arraybackslash}X>{\\raggedright\\arraybackslash}X}
 
-    % Lijevi dio - Definicija i struktura
-    \\node[font=\\bfseries\\small, primaryblue] at (5,11.3) {DEFINICIJA};
-    \\draw[thick] (0.5,9.5) rectangle (9.5,11);
-    \\node[align=left, font=\\scriptsize, anchor=north west] at (0.7,10.8) {
-        I\\textsuperscript{2}L = Integrated Injection Logic\\\\
-        Godina: 1972. (Philips, IBM)\\\\
-        Bipolarna logička obitelj, 2 tranzistora/vrata
-    };
+% Red 1: Definicija | Princip rada
+\\begin{tcolorbox}[colback=white,colframe=primaryblue!60,boxrule=0.8pt,arc=2pt,left=4pt,right=4pt,top=4pt,bottom=4pt,title={\\small\\bfseries DEFINICIJA},fonttitle=\\bfseries\\small\\color{primaryblue},colbacktitle=primaryblue!10,height fill]
+\\scriptsize
+I\\textsuperscript{2}L = Integrated Injection Logic\\\\
+Godina: 1972. (Philips i IBM)\\\\
+Bipolarna logička obitelj, 2 tranzistora po vratima
+\\end{tcolorbox}
+&
+\\begin{tcolorbox}[colback=white,colframe=primaryblue!60,boxrule=0.8pt,arc=2pt,left=4pt,right=4pt,top=4pt,bottom=4pt,title={\\small\\bfseries PRINCIP RADA},fonttitle=\\bfseries\\small\\color{primaryblue},colbacktitle=primaryblue!10,height fill]
+\\scriptsize
+$I_{inj}$ = injekcijska struja (PNP $\\rightarrow$ baza NPN)\\\\
+Ulaz LOW $\\rightarrow$ NPN OFF $\\rightarrow$ Izlaz HIGH\\\\
+Ulaz HIGH $\\rightarrow$ NPN SAT $\\rightarrow$ Izlaz LOW
+\\end{tcolorbox}
+\\\\[4pt]
 
-    \\node[font=\\bfseries\\small, primaryblue] at (5,9.1) {OSNOVNA STRUKTURA};
-    \\draw[thick] (0.5,6.8) rectangle (9.5,8.8);
-    \\node[align=left, font=\\scriptsize, anchor=north west] at (0.7,8.6) {
-        1. \\textbf{PNP injektor} - lateralni, izvor struje\\\\
-        2. \\textbf{NPN prekidač} - vertikalni, logička funkcija\\\\
-        Višestruki kolektori $\\rightarrow$ fan-out
-    };
+% Red 2: Osnovna struktura | Naponski nivoi
+\\begin{tcolorbox}[colback=white,colframe=primaryblue!60,boxrule=0.8pt,arc=2pt,left=4pt,right=4pt,top=4pt,bottom=4pt,title={\\small\\bfseries OSNOVNA STRUKTURA},fonttitle=\\bfseries\\small\\color{primaryblue},colbacktitle=primaryblue!10,height fill]
+\\scriptsize
+\\textbf{1. PNP injektor} -- lateralni tranzistor, izvor struje\\\\
+\\textbf{2. NPN prekidač} -- vertikalni tranzistor, logička funkcija\\\\
+Višestruki kolektori $\\rightarrow$ fan-out = 3--8
+\\end{tcolorbox}
+&
+\\begin{tcolorbox}[colback=white,colframe=primaryblue!60,boxrule=0.8pt,arc=2pt,left=4pt,right=4pt,top=4pt,bottom=4pt,title={\\small\\bfseries NAPONSKI NIVOI},fonttitle=\\bfseries\\small\\color{primaryblue},colbacktitle=primaryblue!10,height fill]
+\\scriptsize
+$V_{OH}$ = 0.7\,V (HIGH) = $V_{BE}$\\\\
+$V_{OL}$ = 0.1\,V (LOW) = $V_{CE,sat}$\\\\
+$V_{swing}$ = 0.6\,V \\hfill \\textit{(mali naponski hod!)}
+\\end{tcolorbox}
+\\\\[4pt]
 
-    % Desni dio - Princip rada
-    \\node[font=\\bfseries\\small, primaryblue] at (15,11.3) {PRINCIP RADA};
-    \\draw[thick] (10.5,9.5) rectangle (19.5,11);
-    \\node[align=left, font=\\scriptsize, anchor=north west] at (10.7,10.8) {
-        $I_{inj}$ = injekcijska struja (iz PNP u bazu NPN)\\\\
-        Ulaz LOW $\\rightarrow$ NPN OFF $\\rightarrow$ Izlaz HIGH\\\\
-        Ulaz HIGH $\\rightarrow$ NPN SAT $\\rightarrow$ Izlaz LOW
-    };
+% Red 3: Logicka funkcija | Usporedba
+\\begin{tcolorbox}[colback=white,colframe=primaryblue!60,boxrule=0.8pt,arc=2pt,left=4pt,right=4pt,top=4pt,bottom=4pt,title={\\small\\bfseries LOGIČKA FUNKCIJA},fonttitle=\\bfseries\\small\\color{primaryblue},colbacktitle=primaryblue!10,height fill]
+\\scriptsize
+Osnovna ćelija = \\textbf{INVERTOR}: $Y = \\overline{A}$\\\\
+Wired-AND spajanjem kolektora:\\\\
+$Y = \\overline{A} \\cdot \\overline{B} = \\overline{A+B}$ \\quad (NOR funkcija)
+\\end{tcolorbox}
+&
+\\begin{tcolorbox}[colback=white,colframe=primaryblue!60,boxrule=0.8pt,arc=2pt,left=4pt,right=4pt,top=4pt,bottom=4pt,title={\\small\\bfseries USPOREDBA},fonttitle=\\bfseries\\small\\color{primaryblue},colbacktitle=primaryblue!10,height fill]
+\\scriptsize
+\\begin{tabularx}{\\linewidth}{l>{\\raggedright\\arraybackslash}X>{\\raggedright\\arraybackslash}X>{\\raggedright\\arraybackslash}X}
+& \\textbf{I\\textsuperscript{2}L} & \\textbf{TTL} & \\textbf{CMOS}\\\\
+Napon: & $<$1V & 5V & 3--5V\\\\
+Potr.: & 0.01mW & 10mW & $\\mu$W\\\\
+\\end{tabularx}
+\\end{tcolorbox}
+\\end{tabularx}
 
-    \\node[font=\\bfseries\\small, primaryblue] at (15,9.1) {NAPONSKI NIVOI};
-    \\draw[thick] (10.5,6.8) rectangle (19.5,8.8);
-    \\node[align=left, font=\\scriptsize, anchor=north west] at (10.7,8.6) {
-        $V_{OH}$ = 0.7V (HIGH) = $V_{BE}$\\\\
-        $V_{OL}$ = 0.1V (LOW) = $V_{CE,sat}$\\\\
-        $V_{swing}$ = 0.6V (mali naponski hod!)
-    };
+\\vspace{4pt}
 
-    % Srednji dio - Logička funkcija i usporedba
-    \\node[font=\\bfseries\\small, primaryblue] at (5,6.4) {LOGIČKA FUNKCIJA};
-    \\draw[thick] (0.5,4.8) rectangle (9.5,6.1);
-    \\node[align=left, font=\\scriptsize, anchor=north west] at (0.7,5.9) {
-        Osnovna ćelija = \\textbf{INVERTOR} ($Y = \\overline{A}$)\\\\
-        Wired-AND: $Y = \\overline{A+B}$ = NOR funkcija
-    };
+% Prednosti i nedostaci - puna sirina
+\\begin{tcolorbox}[colback=white,colframe=accentorange,boxrule=0.8pt,arc=2pt,left=6pt,right=6pt,top=4pt,bottom=4pt,title={\\small\\bfseries PREDNOSTI I NEDOSTACI},fonttitle=\\bfseries\\small\\color{accentorange},colbacktitle=accentorange!15]
+\\scriptsize
+\\textbf{\\textcolor{accentgreen}{+}} Visoka gustoća integracije \\enspace|\\enspace Mala potrošnja \\enspace|\\enspace Jednostavan proizvodni proces \\enspace|\\enspace Podešiv trade-off snaga/brzina\\\\
+\\textbf{\\textcolor{red!70}{--}} Mali $V_{swing}$ (0.6V) \\enspace|\\enspace Niska otpornost na šum \\enspace|\\enspace Ograničen fan-out \\enspace|\\enspace Zastarjela tehnologija
+\\end{tcolorbox}
 
-    \\node[font=\\bfseries\\small, primaryblue] at (15,6.4) {USPOREDBA};
-    \\draw[thick] (10.5,4.8) rectangle (19.5,6.1);
-    \\node[align=center, font=\\scriptsize, text width=8cm] at (15,5.45) {
-        I\\textsuperscript{2}L: <1V, 0.01mW \\\\ TTL: 5V, 10mW \\\\ CMOS: 3-5V, $\\mu$W
-    };
+\\vspace{4pt}
 
-    % Donji dio - Prednosti i nedostaci
-    \\node[font=\\bfseries\\small, primaryblue] at (10,4.4) {PREDNOSTI I NEDOSTACI};
-    \\draw[thick] (2,2) rectangle (18,4.1);
-    \\node[align=center, font=\\scriptsize] at (10,3.2) {
-        \\textbf{+} Visoka gustoća | Mala potrošnja | Jednostavan proces | Podešiva brzina/snaga\\\\
-        \\textbf{--} Mali $V_{swing}$ (0.6V) | Osjetljivost na šum | Ograničen fan-out | Zastarjelo
-    };
+% Kljucna poruka
+\\begin{tcolorbox}[colback=goldcolor!20,colframe=goldcolor,boxrule=1pt,arc=3pt,left=6pt,right=6pt,top=5pt,bottom=5pt]
+\\centering\\small
+\\textbf{KLJUČNO:} I\\textsuperscript{2}L = PNP injektor + NPN prekidač = INVERTOR sa višestrukim izlazima
+\\end{tcolorbox}
 
-    % Formula dole
-    \\node[font=\\small, draw, fill=goldcolor!20, rounded corners, text width=16cm, align=center] at (10,1.2) {
-        \\textbf{KLJUČNO:} I\\textsuperscript{2}L = PNP injektor + NPN prekidač = INVERTOR sa višestrukim izlazima
-    };
-
-\\end{tikzpicture}}
-\\end{center}
+\\end{tcolorbox}
 
 % ==================== STRANA 6: RADNI LISTIĆ ====================
 \\newpage
@@ -1283,14 +1306,14 @@ PRAVILA (SVA MORAJU BITI ISPUNJENA):
 3. Tabela NASTAVNE METODE: \\begin{tabularx}{\\linewidth}{|>{\\columncolor{secondaryblue!10}\\raggedright\\arraybackslash}p{3.5cm}|>{\\raggedright\\arraybackslash}X|}
 4. Tabele artikulacije (nastavnik/učenik): \\noindent\\adjustbox{max width=\\linewidth}{% \\begin{tabular}{|L{7.5cm}|L{7.5cm}|}
 5. Tabela MOGUĆE POTEŠKOĆE: \\begin{tabularx}{\\linewidth}{|>{\\raggedright\\arraybackslash}X|>{\\raggedright\\arraybackslash}X|}
-6. Plan ploče tikzpicture: \\noindent\\adjustbox{max width=\\linewidth}{% \\begin{tikzpicture}[scale=0.82] ... }
+6. Plan ploče: koristiti nested tcolorbox strukturu sa tabularx za 2-kolonu raspored (identično referentnom dokumentu). NIKAD ne koristiti tikzpicture sa fiksnim koordinatama za plan ploče. Okvir plana ploče mora biti tcolorbox sa breakable opcijom.
 7. Zadrži iste boje: primaryblue, secondaryblue, accentorange, accentgreen, goldcolor, lightgray
 8. NIKAD ne koristi fiksne cm dimenzije koje zajedno prelaze 15.4cm
 9. Tabela rješenja u successbox: \\begin{tabular}{|l|l|l|}... sa adjustbox ako treba
 6. Zadrži iste fontawesome ikone: faGraduationCap, faHeart, faCogs, faClock, faChartLine, faExclamationTriangle, faStickyNote, faMicrochip, faCheckCircle
 7. Vremenski raspored IDENTIČAN: 5+12+12+8+8 minuta
 8. Radni listić: 9 pitanja, 25 bodova ukupno, ista skala ocjenjivanja
-9. tikzpicture plan ploče: draw[very thick, primaryblue, rounded corners] (0,0) rectangle (20,13)
+9. Plan ploče: koristiti tcolorbox sa tabularx, NE tikzpicture sa koordinatama. Svaki segment (Definicija, Princip rada, itd.) je poseban tcolorbox unutar tabularx 2-kolone.
 10. Na naslovnoj strani iza naziva škole MORA biti \\\\\\\\ (novi red u LaTeX-u) da naziv priprema počne u novom redu
 11. Sav tekst unutar tabela mora koristiti \\\\\\\\ za prijelaz u novi red umjesto praznog reda
 12. Iste pakete u preambuli (uključujući adjustbox), ne dodavaj nove
