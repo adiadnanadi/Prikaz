@@ -189,6 +189,21 @@ textarea{resize:vertical;min-height:110px;line-height:1.6}
   animation:ornamentpulse 3s ease-in-out infinite}
 @keyframes ornamentpulse{0%,100%{opacity:.3}50%{opacity:.7}}
 
+.fallback-box{display:none;background:var(--cream);border:2px dashed var(--border);
+  border-radius:6px;padding:32px;text-align:center;margin-top:8px}
+.fallback-box h3{font-family:'Playfair Display',serif;color:var(--blue);font-size:1.3rem;margin-bottom:12px}
+.fallback-box p{font-family:'Lora',serif;font-size:14px;color:var(--ink);line-height:1.7;margin-bottom:20px}
+.fallback-steps{list-style:none;text-align:left;display:inline-block;margin-bottom:24px}
+.fallback-steps li{font-family:'DM Mono',monospace;font-size:12px;color:var(--blue);
+  padding:6px 0;border-bottom:1px solid var(--border);display:flex;gap:12px;align-items:center}
+.fallback-steps li span{background:var(--blue);color:#fff;border-radius:50%;
+  width:22px;height:22px;display:flex;align-items:center;justify-content:center;
+  font-size:11px;flex-shrink:0}
+.btn-overleaf{font-family:'Playfair Display',serif;font-size:16px;font-weight:700;
+  background:var(--blue);color:#fff;border:none;border-radius:4px;
+  padding:14px 28px;cursor:pointer;display:inline-flex;align-items:center;gap:10px;
+  box-shadow:0 4px 16px rgba(0,58,112,.35);transition:all .2s}
+.btn-overleaf:hover{background:var(--blue-mid);transform:translateY(-1px)}
 ::-webkit-scrollbar{width:5px;height:5px}
 ::-webkit-scrollbar-track{background:rgba(255,255,255,.03)}
 ::-webkit-scrollbar-thumb{background:rgba(200,146,26,.3);border-radius:3px}
@@ -317,7 +332,21 @@ textarea{resize:vertical;min-height:110px;line-height:1.6}
         <a class="btn-dl btn-dl-green" id="downloadPdfBtn" href="#" download="priprema.pdf">⬇ Skini PDF</a>
       </div>
     </div>
-    <div class="pdf-wrap">
+    <!-- Fallback kad CORS blokira kompajler -->
+    <div class="fallback-box" id="fallbackBox">
+      <h3>📄 LaTeX priprema je generisana!</h3>
+      <p>Online kompajler nije dostupan iz browsera (CORS ograničenje).<br>
+      Skini .tex fajl i kompajliraj u Overleaf — besplatno, bez instalacije.</p>
+      <ul class="fallback-steps">
+        <li><span>1</span> Klikni "Skini .tex" dugme gore</li>
+        <li><span>2</span> Otvori overleaf.com i napravi novi projekt</li>
+        <li><span>3</span> Upload-aj .tex fajl</li>
+        <li><span>4</span> Klikni Recompile → Download PDF</li>
+      </ul>
+      <br>
+      <button class="btn-overleaf" onclick="openOverleaf()">⚡ Otvori direktno u Overleaf</button>
+    </div>
+    <div class="pdf-wrap" id="pdfWrap">
       <div class="pdf-topbar">
         <div class="pdf-dot" style="background:#ff5f57"></div>
         <div class="pdf-dot" style="background:#febc2e"></div>
@@ -968,66 +997,94 @@ Zadrži IDENTIČNU LaTeX strukturu sa svim adjustbox omotačima. Vrati kompletan
 }
 
 async function compileAndShow(latex, predmet, tema) {
+  const filename = `priprema_${predmet}_${tema}`.replace(/\s+/g,'_').toLowerCase();
+
+  // --- Pokusaj 1: YtoTech API (ima CORS) ---
   try {
-    setLoadingPct(72, 'Slanje na TeXLive.net kompajler...');
-    const formData = new FormData();
-    formData.append('filecontents[]', latex);
-    formData.append('filename[]', 'document.tex');
-    formData.append('engine', 'pdflatex');
-    formData.append('return', 'pdf');
-
-    const resp = await fetch('https://texlive.net/cgi-bin/latexcgi', {
+    setLoadingPct(72, 'Kompajliranje — YtoTech LaTeX API...');
+    const resp = await fetch('https://latex.ytotech.com/builds/sync', {
       method: 'POST',
-      body: formData
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        compiler: 'pdflatex',
+        resources: [{ main: true, content: latex }]
+      })
     });
-
-    const contentType = resp.headers.get('content-type') || '';
-    setLoadingPct(90, 'Učitavanje PDF-a...');
-
-    if (resp.ok && contentType.includes('pdf')) {
-      const blob = await resp.blob();
-      const pdfUrl = URL.createObjectURL(blob);
-
-      document.getElementById('pdfFrame').src = pdfUrl;
-      document.getElementById('pdfFilename').textContent =
-        `priprema_${predmet}_${tema}.pdf`.replace(/\s+/g,'_').toLowerCase();
-
-      const dlPdf = document.getElementById('downloadPdfBtn');
-      dlPdf.href = pdfUrl;
-      dlPdf.download = `priprema_${predmet}_${tema}.pdf`.replace(/\s+/g,'_').toLowerCase();
-
-      setLoadingPct(100, 'Gotovo!');
-      setTimeout(()=>{
-        hideLoading();
-        setLoading(false);
-        document.getElementById('pdfSection').classList.add('visible');
-        showStatus('success', `✓ Priprema generisana i kompajlirana! Predmet: ${predmet} — Tema: ${tema}`);
-        document.getElementById('pdfSection').scrollIntoView({behavior:'smooth',block:'start'});
-      }, 700);
-
-    } else {
-      // TeXLive returned error — try Overleaf fallback
-      const text = await resp.text().catch(()=>'');
-      const errLine = (text.match(/^! .+/m)||['Nepoznata LaTeX greška'])[0];
-      console.error('LaTeX log:', text);
-      hideLoading();
-      setLoading(false);
-      showStatus('error', `LaTeX greška: ${errLine} — Kopiraj .tex i kompajliraj u Overleaf.`);
-      // Still show download tex button
-      document.getElementById('pdfSection').classList.add('visible');
-      document.getElementById('pdfFrame').src = '';
+    if (resp.ok) {
+      const ct = resp.headers.get('content-type') || '';
+      if (ct.includes('pdf')) {
+        const blob = await resp.blob();
+        showPDF(blob, filename, predmet, tema);
+        return;
+      }
     }
-  } catch(corsErr) {
-    // CORS — open in new tab via Overleaf
-    console.warn('CORS blokirano, fallback na Overleaf POST');
-    setLoadingPct(95, 'Otvaram Overleaf...');
-    _overleafPost(latex);
-    setTimeout(()=>{
-      hideLoading();
-      setLoading(false);
-      showStatus('info', 'PDF se otvara u Overleaf-u u novom tabu — klikni Recompile pa Download PDF.');
-    }, 1000);
-  }
+  } catch(e1) { console.warn('YtoTech nije dostupan:', e1.message); }
+
+  // --- Pokusaj 2: TeXLive formData ---
+  try {
+    setLoadingPct(82, 'Kompajliranje — TeXLive.net...');
+    const fd = new FormData();
+    fd.append('filecontents[]', latex);
+    fd.append('filename[]', 'document.tex');
+    fd.append('engine', 'pdflatex');
+    fd.append('return', 'pdf');
+    const resp2 = await fetch('https://texlive.net/cgi-bin/latexcgi', {
+      method: 'POST', body: fd
+    });
+    if (resp2.ok) {
+      const ct2 = resp2.headers.get('content-type') || '';
+      if (ct2.includes('pdf')) {
+        const blob2 = await resp2.blob();
+        showPDF(blob2, filename, predmet, tema);
+        return;
+      }
+    }
+  } catch(e2) { console.warn('TeXLive CORS blokiran:', e2.message); }
+
+  // --- Fallback: nema online kompajlera dostupnog ---
+  // Prikazujemo lijepu stranicu sa uputstvima
+  setLoadingPct(100, 'Priprema gotova!');
+  setTimeout(() => {
+    hideLoading();
+    setLoading(false);
+    showFallbackUI(filename, predmet, tema);
+    showStatus('success', `✓ LaTeX priprema generisana! Skini .tex fajl i kompajliraj u Overleaf.`);
+  }, 600);
+}
+
+function showPDF(blob, filename, predmet, tema) {
+  const pdfUrl = URL.createObjectURL(blob);
+  document.getElementById('pdfFrame').src = pdfUrl;
+  document.getElementById('pdfFilename').textContent = filename + '.pdf';
+  const dlPdf = document.getElementById('downloadPdfBtn');
+  dlPdf.href = pdfUrl;
+  dlPdf.download = filename + '.pdf';
+  dlPdf.style.display = 'inline-flex';
+
+  setLoadingPct(100, 'Gotovo!');
+  setTimeout(() => {
+    hideLoading();
+    setLoading(false);
+    // Sakrij fallback, pokazi PDF frame
+    document.getElementById('fallbackBox').style.display = 'none';
+    document.getElementById('pdfWrap').style.display = 'block';
+    document.getElementById('pdfSection').classList.add('visible');
+    showStatus('success', `✓ PDF generisan! Predmet: ${predmet} — Tema: ${tema}`);
+    document.getElementById('pdfSection').scrollIntoView({behavior:'smooth',block:'start'});
+  }, 700);
+}
+
+function showFallbackUI(filename, predmet, tema) {
+  document.getElementById('pdfWrap').style.display = 'none';
+  document.getElementById('downloadPdfBtn').style.display = 'none';
+  const fb = document.getElementById('fallbackBox');
+  fb.style.display = 'block';
+  document.getElementById('pdfSection').classList.add('visible');
+  document.getElementById('pdfSection').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function openOverleaf() {
+  if (generatedLatex) _overleafPost(generatedLatex);
 }
 
 function _overleafPost(latex) {
